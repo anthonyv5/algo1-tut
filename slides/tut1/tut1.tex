@@ -1,0 +1,195 @@
+\documentclass[t]{beamer}
+%\documentclass{beamer}
+\listfiles
+
+\mode<presentation>
+{
+  \usetheme[deutsch,titlepage0]{KIT}
+% \usetheme[usefoot]{KIT}
+% \usetheme{KIT}
+
+%%  \usefonttheme{structurebold}
+
+  \setbeamercovered{transparent}
+
+  %\setbeamertemplate{enumerate items}[circle]
+  \setbeamertemplate{enumerate items}[ball]
+
+}
+\usepackage{babel}
+%\date{10.05.2010}
+%\DateText
+
+\newlength{\Ku}
+\setlength{\Ku}{1.43375pt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[TS1,T1]{fontenc}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{xspace}
+\usepackage{listings}
+\usepackage[sort&compress]{natbib}
+\usepackage{inconsolata}
+\usepackage[scaled]{beramono}
+
+%\usenavigationsymbols
+%\usenavigationsymbols[sfHhdb]
+%\usenavigationsymbols[sfhHb]
+
+\input{../config}
+
+\title[]{Tutorium „Algorithmen I“}
+\subtitle{Organisatorisches, Arithmetik, Laufzeitanalyse}
+
+\author[]{\authorName}
+
+\AuthorTitleSep{}
+
+\institute[]{Institut für theoretische Informatik}
+
+\TitleImage[width=\titleimagewd]{title}
+
+\newlength{\tmplen}
+
+\newcommand{\verysmall}{\fontsize{6pt}{8.6pt}\selectfont}
+
+\newcommand{\Rplus}{\protect\raisebox{.1ex}{+}}
+\newcommand{\Cpp}{\mbox{C\Rplus\Rplus}\xspace}
+\newcommand{\CppEleven}{\mbox{C\Rplus\Rplus11}\xspace}
+\newcommand{\CppNext}{\mbox{C\Rplus\Rplus1x}\xspace}
+
+\lstset{basicstyle=\footnotesize\ttfamily,
+        numbers=none,
+        numberstyle=\scriptsize,
+        numbersep=5pt,
+        tabsize=4,
+        captionpos=b,
+        framexleftmargin=1mm,
+        escapeinside={\%*}{*)},
+  }
+\lstset{literate=%
+  {Ö}{{\"O}}1
+  {Ä}{{\"A}}1
+  {Ü}{{\"U}}1
+  {ß}{{\ss}}2
+  {ü}{{\"u}}1
+  {ä}{{\"a}}1
+  {ö}{{\"o}}1
+}
+
+\bibliographystyle{plain}
+\KITfoot{\parbox[t]{150mm}{
+  \vspace{0.1em} \tiny
+  \today
+  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad \textbf{Tutorium 1}
+  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad Algo 1
+}}
+
+%\setbeamertemplate{footline}
+%{
+  %\leavevmode%
+  %\hbox{%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    %\usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  %\end{beamercolorbox}%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    %\usebeamerfont{title in head/foot}\insertshorttitle
+  %\end{beamercolorbox}%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    %\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    %\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  %\end{beamercolorbox}}%
+  %\vskip0pt%
+%}
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \frametitle{Euer Tutor}
+  \begin{itemize}
+    \item Name: \authorName
+    \item Bachelor Informatik, 4. Semester
+    \item E-Mail: \authorEmail
+      \begin{itemize}
+      \item Auch bei Fragen gerne schreiben!
+      \end{itemize}
+    \item Diese Folien: \authorHomepage
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Tutorium: Sinn und Spielregeln}
+  \begin{itemize}
+    \item \emph{Freiwillige} M"oglichkeit, Vorlesungsstoff zu wiederholen und
+          an Beispielen zu "uben („Learning by doing“)
+    \item Tutor Ansprechpartner bei Fragen, Schnittstelle zwischen euch und
+          "Ubungsleitung/Professor
+      \begin{itemize}
+      \item Also Fragen stellen, sofort nachdem sie auftreten!
+      \end{itemize}
+    \item Hinarbeiten auf "Ubungsbl"atter, z.T. gemeinsames Besprechen von L"osungen
+    \item Vorrechnen von Aufgaben f"ur Bonuspunkte
+          (einmalig bis zu 6 zus"atzliche "Ubungspunkte)
+    \item Vorbereitung auf (Zwischen-)Klausur
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Klausurbonus}
+  \begin{itemize}
+    \item "Ubungspunkte linear interpoliert auf $\leq 4$ Klausurbonuspunkte
+          (Klausur hat insgesamt 60P)
+      \begin{itemize}
+      \item $\geq 20$ "UP $\rightarrow$ 1 BP
+      \item $\geq 40$ "UP $\rightarrow$ 2 BP
+      \item $\geq 60$ "UP $\rightarrow$ 3 BP
+      \item $\geq 80$ "UP $\rightarrow$ 4 BP
+      \end{itemize}
+    \item "UP setzen sich zusammen aus
+      \begin{itemize}
+      \item "Ubungsbl"atterpunkte
+      \item Mittsemesterklausur (ca. 2 "Ubungsbl"atter wert)
+      \item Vorrechnen im Tutorium (einmalig $\leq 6$ "UP)
+      \item Zusatzaufgaben auf "Ubungsbl"attern (z"ahlen nicht zu 100\%)
+      \item Programmierwettbewerb (z"ahlt nicht zu 100\%)
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{"Ubungsbl"atter}
+  \begin{itemize}
+
+  \item Jede Woche eins
+  \item Ausgabe Mittwoch, Abgabe nach 9 Tagen freitags bis 12:45 im Infobau
+  \item Partnerarbeit erlaubt und erw"unscht
+    \begin{itemize}
+    \item nur \emph{eine} Abgabe pro Team (mit zwei Namen!)
+    \item Name(n), Matrikelnummer(n) und Tutoriumsnummer nicht vergessen!
+    \end{itemize}
+  \item Offensichtlich abgeschrieben $\rightarrow$ 0 Punkte auf gesamtes Blatt
+  \item Korrekturkriterien
+    \begin{itemize}
+    \item Punktevergabe meist auf Blatt aufgeschl"usselt
+    \item Noch genauere Aufschl"usselung f"ur Tutoren, zum Zwecke der Einheitlichkeit
+    \end{itemize}
+  \item Bei Fragen/Unklarheiten/Zweifeln bitte nach dem Tutorium ansprechen
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sonstige Resourcen}
+  \begin{itemize}
+  \item Veranstaltungshomepage: \url{http://algo2.iti.kit.edu/AlgorithmenI2013.php}
+  \item Diskussionsforum f"ur "Ubungsaufgaben:
+     \small \url{https://ilias.studium.kit.edu/goto_produktiv_crs_216182.html}
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,12 @@
+/config.tex
+*.aux
+*.log
+*.pdf
+*.vbr
+*.bib
+*.out
+*.nav
+*.toc
+*.snm
+*.bbl
+*.blg
