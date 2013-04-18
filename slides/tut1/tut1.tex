@@ -59,13 +59,14 @@
 \newcommand{\CppEleven}{\mbox{C\Rplus\Rplus11}\xspace}
 \newcommand{\CppNext}{\mbox{C\Rplus\Rplus1x}\xspace}
 
-\lstset{basicstyle=\footnotesize\ttfamily,
-        numbers=none,
+\lstset{basicstyle=\normalsize\ttfamily,
+        numbers=left,
         numberstyle=\scriptsize,
-        numbersep=5pt,
+        numbersep=-5pt,
         tabsize=4,
         captionpos=b,
         framexleftmargin=1mm,
+        xleftmargin=10mm,
         escapeinside={\%*}{*)},
   }
 \lstset{literate=%
@@ -139,6 +140,10 @@
       \item "Ubungsbl"atterpunkte
       \item Mittsemesterklausur (ca. 2 "Ubungsbl"atter wert)
       \item Vorrechnen im Tutorium (einmalig $\leq 6$ "UP)
+      \begin{itemize}
+        \item Aktuelles oder zuletzt abgegebenes "UB (falls Musterl"osung noch
+              nicht ver"offentlicht)
+      \end{itemize}
       \item Zusatzaufgaben auf "Ubungsbl"attern (z"ahlen nicht zu 100\%)
       \item Programmierwettbewerb (z"ahlt nicht zu 100\%)
       \end{itemize}
@@ -174,6 +179,50 @@
   \item Diskussionsforum f"ur "Ubungsaufgaben:
      \small \url{https://ilias.studium.kit.edu/goto_produktiv_crs_216182.html}
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{"Uberblick Tutorium}
+  %\begin{itemize}
+  %\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Linearsuche}
+  \begin{itemize}
+  \item Eingabe: Array $a$ der Gr"o"se $n$ und Element $x$
+  \item Ausgabe: Index $i \in \{0,\ldots,n-1\}$ mit $a[i] = x$
+                 oder "not found", falls das Element nicht im Array existiert
+  \end{itemize}
+  \begin{lstlisting}
+  Function LINEAR-SEARCH(a, x)
+      for i := 0 to a.length - 1
+          if x = a[i]
+              return i
+      return "not found"
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bin"are Suche}
+  \begin{itemize}
+  \item Eingabe: Array $a$ der Gr"o"se $2^k$ mit $k \geq 1$ und Element
+                 $x \in a$. \\ $a$ sei aufsteigend sortiert und enthalte
+                 keine doppelten Elemente
+  \item Ausgabe: Index $i \in \{0,\ldots,2^k-1\}$ mit $a[i] = x$
+  \end{itemize}
+  \begin{lstlisting}
+  Function BINARY-SEARCH(a, x)
+      l := 0
+      r := a.length    // = %*$2^k$*)
+      while r - l > 1
+          m := %*$\frac{1}{2}\left(l+r\right)$*)
+          if x %*$\leq$*) a[m]
+              r := m
+          else
+              l := m
+      return l
+  \end{lstlisting}
 \end{frame}
 
 \end{document}
