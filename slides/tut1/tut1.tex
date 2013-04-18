@@ -204,28 +204,51 @@
 \begin{frame}
   \frametitle{Laufzeitanalyse}
   \begin{itemize}
-  \item Ziel: Definitive Aussagen "uber Laufzeit eines Algorithmus,
-        in Abh"angigkeit der Eingabegr"o"se(n)
+  \item Ziel: Konkrete Aussagen "uber Laufzeit eines Algorithmus,
+        in Abh"angigkeit der Eingabegr"o"se (mathematische Funktion!)
   \item Stufe verschiedene Eingabetypen ein:
     \begin{itemize}
-    \item Worst case: Familie von Eingaben, bei denen der Algorithmus besonders
-          viel Laufzeit erfordert
-    \item Best case: Familie von Eingaben, bei denen der Algorithmus besonders
-          schnell fertig wird (meist uninteressant)
+    \item \textbf{Worst case}: Familie von Eingaben, bei denen der Algorithmus
+          besonders viel Laufzeit erfordert
+    \item \textbf{Best case}: Familie von Eingaben, bei denen der Algorithmus
+          besonders schnell fertig wird (meist uninteressant)
     \end{itemize}
-  \item Im Folgenden Untersuchung der Worst-Case-Laufzeit
+  \item Im Folgenden Untersuchung der \textbf{Worst-Case-Laufzeit}
   \item Idee: Z"ahlen von Operationen in einem geeigneten Rechnermodell
     \begin{itemize}
-    \item RAM-Modell: Speicherzugriffe und arithmetische Operationen
+    \item \textbf{RAM-Modell} Speicherzugriffe und arithmetische Operationen
           ben"otigen konstante Zeit
     \end{itemize}
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Laufzeitanalyse (Beispiel)}
+  \begin{itemize}
+  \item Eingabe: Array \emph{array} der Gr"o"se $n$
+  \item Ausgabe: \visible<2->{FALSE, falls $array$ doppeltes Element enth"alt, sonst TRUE}
+  \end{itemize}
+  \begin{lstlisting}
+  Function %*\visible<2->{UNIQUE}*)(array, x)
+      for i := 0 to array.length - 1
+          for j := i + 1 to array.length - 1
+              if array[i] = array[j]
+                  return FALSE
+      return TRUE
+  \end{lstlisting}
+  \begin{itemize}
+  \item Was macht dieser Algorithmus?
+  \visible<2->{
+  \item Was sind die Worst-Case-Eingaben?
+  \item Wie viele Operationen werden im \emph{worst case} ausgef"uhrt?
+  \end{itemize}
+  }
+\end{frame}
+
 \begin{frame}
   \frametitle{Landau-Symbole}
   \begin{itemize}
-  \item Machen Aussagen "uber asymptotisches Wachstum von Funktionen
+  \item Machen Aussagen "uber \textbf{asymptotisches Wachstum} von Funktionen
   \item Konstante Faktoren werden ignoriert
     \begin{itemize}
     \item Oft Implementierungsdetail, Kompensation durch
@@ -304,7 +327,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Landau-Symbole ("Ubersicht)}
+  \frametitle{Landau-Symbole (\emph{Cheat sheet})}
   \begin{center}
   \begin{tabular}{| l || l | l |} \hline
   \textbf{Notation} & \textbf{$f$ w"achst $\ldots$ $g$} & \textbf{Definition} \\ \hline
@@ -330,6 +353,11 @@
       \\ \hline
   \end{tabular}
   \end{center}
+  \begin{itemize}
+  \item $o(g) \subset \bigO(g)$, $\omega(g) \subset \Omega(g)$
+  \item $\Theta(g) = \bigO(g) \cap \Omega(g)$ \\[0.5em]
+        \quad $\rightarrow \Theta(g) \subset \bigO(g), \Omega(g)$
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -369,6 +397,40 @@
               l := m
       return l
   \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Divide \& Conquer}
+  \begin{itemize}
+  \item Entwurfsprinzip ,,Teile und herrsche''
+  \item Schritte:
+    \begin{itemize}
+    \item Zerlege Problem in $a$ Teilprobleme der Gr"o"se $\frac{n}{b}$
+    \item L"ose Teilprobleme rekursiv
+    \item F"uge Teilergebnisse zusammen in $O(f(n))$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Beispiel Divide \& Conquer: \\ Schnelles Potenzieren}
+  \begin{itemize}
+  \item Gegeben: Zahl $x$, Exponent $n \in \mathbb{N}_0$
+  \item Gesucht: $x^n$
+  \item Naiver Ansatz: Schleife "uber $n$, ben"otigt $\Omega(n)$ Multiplikationen
+  \visible<2->{\item Das geht viel besser! Ideen?}
+  \visible<3->{
+  \item Beobachtung:
+    \begin{align}
+    x^{2k} &= \left(x^k\right)^2 \\
+    x^{2k+1} &= \left(x^k\right)^2 \cdot x
+    \end{align}
+  \item Also: 1 Teilproblem der Gr"o"se $\frac{n}{2}$
+  \item Zusammenf"ugen mit $\leq 2$ Multiplikationen in
+         \[\rightarrow \text{ Anzahl Multiplikationen }
+           M(n) = M\left(\frac{n}{2}\right) + \bigO(1) = \bigO(\log n)\]
+  }
+  \end{itemize}
 \end{frame}
 
 \end{document}
