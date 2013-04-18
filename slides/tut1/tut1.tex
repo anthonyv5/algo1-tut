@@ -28,6 +28,7 @@
 \usepackage{array}
 \usepackage{multicol}
 \usepackage{xspace}
+\usepackage{xcolor}
 \usepackage{listings}
 \usepackage[sort&compress]{natbib}
 \usepackage{inconsolata}
@@ -54,10 +55,9 @@
 
 \newcommand{\verysmall}{\fontsize{6pt}{8.6pt}\selectfont}
 
-\newcommand{\Rplus}{\protect\raisebox{.1ex}{+}}
-\newcommand{\Cpp}{\mbox{C\Rplus\Rplus}\xspace}
-\newcommand{\CppEleven}{\mbox{C\Rplus\Rplus11}\xspace}
-\newcommand{\CppNext}{\mbox{C\Rplus\Rplus1x}\xspace}
+\newcommand{\bigO}{\ensuremath{\mathcal{O}}}
+
+\renewcommand{\arraystretch}{1.5}
 
 \lstset{basicstyle=\normalsize\ttfamily,
         numbers=left,
@@ -111,7 +111,7 @@
   \frametitle{Tutorium: Sinn und Zweck}
   \begin{itemize}
     \item \emph{Freiwillige} M"oglichkeit, Vorlesungsstoff zu wiederholen und
-          an Beispielen zu "uben („Learning by doing“)
+          an Beispielen zu "uben (,,Learning by doing'')
     \item Tutor Ansprechpartner bei Fragen, Schnittstelle zwischen euch und
           "Ubungsleitung/Professor
       \begin{itemize}
@@ -183,21 +183,166 @@
 
 \begin{frame}
   \frametitle{"Uberblick Tutorium}
-  %\begin{itemize}
-  %\end{itemize}
+  \begin{itemize}
+  \item Algorithmenanalyse
+    \begin{itemize}
+    \item Laufzeitanalyse
+      \begin{itemize}
+      \item RAM-Modell
+      \item Landau-Symbole
+      \end{itemize}
+    \item Korrektheitsbeweise: Schleifeninvarianten
+    \end{itemize}
+  \item (Algorithmenentwurf)
+    \begin{itemize}
+    \item Divide \& Conquer
+    \end{itemize}
+  \item Aktuelles "Ubungsblatt
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Laufzeitanalyse}
+  \begin{itemize}
+  \item Ziel: Definitive Aussagen "uber Laufzeit eines Algorithmus,
+        in Abh"angigkeit der Eingabegr"o"se(n)
+  \item Stufe verschiedene Eingabetypen ein:
+    \begin{itemize}
+    \item Worst case: Familie von Eingaben, bei denen der Algorithmus besonders
+          viel Laufzeit erfordert
+    \item Best case: Familie von Eingaben, bei denen der Algorithmus besonders
+          schnell fertig wird (meist uninteressant)
+    \end{itemize}
+  \item Im Folgenden Untersuchung der Worst-Case-Laufzeit
+  \item Idee: Z"ahlen von Operationen in einem geeigneten Rechnermodell
+    \begin{itemize}
+    \item RAM-Modell: Speicherzugriffe und arithmetische Operationen
+          ben"otigen konstante Zeit
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Landau-Symbole}
+  \begin{itemize}
+  \item Machen Aussagen "uber asymptotisches Wachstum von Funktionen
+  \item Konstante Faktoren werden ignoriert
+    \begin{itemize}
+    \item Oft Implementierungsdetail, Kompensation durch
+          bessere Programmiersprachen/Mikrooptimierung/Hardware
+    \end{itemize}
+  \item Endlich viele Funktionswerte k"onnen ignoriert werden
+    \begin{itemize}
+    \item Vor allem gro"se $n$ sind interessant
+    \end{itemize}
+  \item Beispiel: $f(n) = \frac{1}{4}n^2 + 3n$ verh"alt sich f"ur gen"ugend gro"ses
+        $n$ bis auf Faktor $\frac{1}{4}$ wie $g(n) = n^2$, wir wollen
+        Zusammenhang ausdr"ucken k"onnen \\[1em]
+          $\rightarrow f(n) = \Theta(g(n))$
+ %\begingroup
+%\setbeamercolor{block title}{bg=red,fg=blue}%bg=background, fg= foreground
+%\setbeamercolor{block body}{bg=yellow,fg=green}%bg=background, fg= foreground
+ %\begin{definition}
+   %A group $G$ is cyclic if there existis an element $x\in G$ such that $\langle x\rangle=G$.
+ %\end{definition}
+%\endgroup
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Landau-Symbole (2)}
+  \begin{itemize}
+  \item $f \in \bigO(g) \iff$ $f$ ,,w"achst h"ochstens so schnell wie'' $g$
+      \[\visible<2->{\textcolor{red}{\exists c}} \ \
+        \visible<3->{\textcolor{blue}{\exists n_0}} \quad
+        f(n) \leq \visible<2->{\textcolor{red}{c\cdot}} g(n) \ \
+        \forall n \ \visible<3->{\textcolor{blue}{\geq n_0}}\]
+  \visible<4->{
+  \item $f \in \Omega(g) \iff$ $f$ ,,w"achst mindestens so schnell wie'' $g$
+
+      \[\visible<5->{\textcolor{red}{\exists c}} \ \
+        \visible<6->{\textcolor{blue}{\exists n_0}} \quad
+        f(n) \geq \visible<5->{\textcolor{red}{c\cdot}} g(n) \ \
+        \forall n \ \visible<6->{\textcolor{blue}{\geq n_0}}\]
+  }
+  \visible<7->{
+  \item $f \in \Theta(g) \iff f \in \bigO(g) \text{ und } g \in \bigO(f)$
+  }
+  \visible<8->{
+  \item h"aufig auch $f = \bigO(g)$ anstatt $f \in \bigO(g)$ etc.
+  }
+  \visible<9->{
+  \item Auch in Termen m"oglich:
+    \begin{align*}
+        &T(n) = 2\cdot T\left(\frac{n}{3}\right) + \bigO(n) \\
+        \visible<10->{
+        \iff \visible<11->{\textcolor{red}{\exists c}} \ \
+          \visible<12->{\textcolor{blue}{\exists n_0}} \quad
+          &T(n) \leq 2\cdot T\left(\frac{n}{3}\right) +
+          \visible<11->{\textcolor{red}{c\cdot}} n \ \
+          \visible<12->{\textcolor{blue}{\forall n \  \geq n_0}}
+        }
+    \end{align*}
+  }
+  %\item $f(n) = o(g(n))$
+  %\item $f(n) = \omega(g(n))$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Landau-Symbole (3)}
+  \begin{itemize}
+  \item $f \in o(g) \iff f \in \bigO(g) \setminus \Theta(g) \iff$
+          $f$ ,,w"achst langsamer als'' $g$
+      \[\lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = 0\]
+  \visible<2->{
+  \item $f \in \omega(g) \iff f \in \Omega(g) \setminus \Theta(g) \iff$
+          $f$ ,,w"achst schneller als'' $g$
+      \[\lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = \infty\]
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Landau-Symbole ("Ubersicht)}
+  \begin{center}
+  \begin{tabular}{| l || l | l |} \hline
+  \textbf{Notation} & \textbf{$f$ w"achst $\ldots$ $g$} & \textbf{Definition} \\ \hline
+  $f \in o(g)$
+      & echt langsamer als
+      & $\lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = 0$
+      \\ \hline
+  $f \in \bigO(g)$
+      & \footnotesize h"ochstens so schnell wie \normalsize
+      & $\exists c: \ f(n) \leq c\cdot g(n) \text{ ffa } n$
+      \\ \hline
+  $f \in \Theta(g)$
+      & genauso schnell wie
+      & \footnotesize $\exists c_1, c_2: \ c_1\cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \text{ ffa } n$ \normalsize
+      \\ \hline
+  $f \in \Omega(g)$
+      & \footnotesize mindestens so schnell wie \normalsize
+      & $\exists c: \ f(n) \geq c\cdot g(n) \text{ ffa } n$
+      \\ \hline
+  $f \in \omega(g)$
+      & echt schneller als
+      & $\lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = \infty$
+      \\ \hline
+  \end{tabular}
+  \end{center}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Linearsuche}
   \begin{itemize}
-  \item Eingabe: Array $a$ der Gr"o"se $n$ und Element $x$
-  \item Ausgabe: Index $i \in \{0,\ldots,n-1\}$ mit $a[i] = x$
-                 oder "not found", falls das Element nicht im Array existiert
+  \item Eingabe: Array \emph{array} der Gr"o"se $n$ und Element $x$
+  \item Ausgabe: Index $i \in \{0,\ldots,n-1\}$ mit $\text{\emph{array}}[i] = x$
+                 oder ,,not found'', falls das Element nicht im Array existiert
   \end{itemize}
   \begin{lstlisting}
-  Function LINEAR-SEARCH(a, x)
-      for i := 0 to a.length - 1
-          if x = a[i]
+  Function LINEAR-SEARCH(array, x)
+      for i := 0 to array.length - 1
+          if x = array[i]
               return i
       return "not found"
   \end{lstlisting}
@@ -206,18 +351,19 @@
 \begin{frame}[fragile]
   \frametitle{Bin"are Suche}
   \begin{itemize}
-  \item Eingabe: Array $a$ der Gr"o"se $2^k$ mit $k \geq 1$ und Element
-                 $x \in a$. \\ $a$ sei aufsteigend sortiert und enthalte
+  \item Eingabe: Array \emph{array} der Gr"o"se $2^k$ mit $k \geq 1$ und Element
+                 $x \in \text{\emph{array}}$. \\
+                 \emph{array} sei aufsteigend sortiert und enthalte
                  keine doppelten Elemente
   \item Ausgabe: Index $i \in \{0,\ldots,2^k-1\}$ mit $a[i] = x$
   \end{itemize}
   \begin{lstlisting}
-  Function BINARY-SEARCH(a, x)
+  Function BINARY-SEARCH(array, x)
       l := 0
-      r := a.length    // = %*$2^k$*)
+      r := array.length    // = %*$2^k$*)
       while r - l > 1
           m := %*$\frac{1}{2}\left(l+r\right)$*)
-          if x %*$\leq$*) a[m]
+          if x %*$\leq$*) array[m]
               r := m
           else
               l := m
