@@ -40,8 +40,9 @@
 
 \input{../config}
 
-\title[]{Tutorium Algorithmen I - Laufzeitanalyse}
-\subtitle{\authorName}
+\title[]{Tutorium Algorithmen I}
+\subtitle{Grundlagen Analyse und Entwurf \\[0.3em]
+          \footnotesize \authorName}
 
 \author[]{\authorName}
 
@@ -108,18 +109,24 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Tutorium: Sinn und Zweck}
+  \frametitle{Tutorium: Sinn, Zweck, Ablauf}
   \begin{itemize}
     \item \emph{Freiwillige} M"oglichkeit, Vorlesungsstoff zu wiederholen und
           an Beispielen zu "uben (,,Learning by doing'')
-    \item Tutor Ansprechpartner bei Fragen, Schnittstelle zwischen euch und
-          "Ubungsleitung/Professor
+    \item Ansprechpartner bei Fragen
       \begin{itemize}
-      \item Also Fragen stellen, sofort nachdem sie auftreten!
+      \item Fragen zum "Ubungsblatt
+      \item Fragen zum Vorlesungsstoff
+      \item Alle anderen Fragen auch!
       \end{itemize}
     \item Hinarbeiten auf "Ubungsbl"atter, z.T. gemeinsames Besprechen von L"osungen
     \item Vorrechnen von Aufgaben f"ur Bonuspunkte
-          (einmalig bis zu 6 zus"atzliche "Ubungspunkte)
+      \begin{itemize}
+      \item Aktuelles oder zuletzt abgegebenes "UB (falls Musterl"osung noch
+            nicht ver"offentlicht)
+      \item \emph{einmalig} bis zu 6 zus"atzliche "Ubungspunkte
+      \item im Mittel 2 pro Tutorium
+      \end{itemize}
     \item Vorbereitung auf (Zwischen-)Klausur
   \end{itemize}
 \end{frame}
@@ -130,22 +137,21 @@
     \item "Ubungspunkte linear interpoliert auf $\leq 4$ Klausurbonuspunkte
           (Klausur hat insgesamt 60P)
       \begin{itemize}
-      \item $\geq 20$ "UP $\rightarrow$ 1 BP
-      \item $\geq 40$ "UP $\rightarrow$ 2 BP
-      \item $\geq 60$ "UP $\rightarrow$ 3 BP
-      \item $\geq 80$ "UP $\rightarrow$ 4 BP
+      \item $\geq 20$ "UP $\rightarrow$ \textbf{1} BP
+      \item $\geq 40$ "UP $\rightarrow$ \textbf{2} BP
+      \item $\geq 60$ "UP $\rightarrow$ \textbf{3} BP
+      \item $\geq 80$ "UP $\rightarrow$ \textbf{4} BP
       \end{itemize}
     \item "UP setzen sich zusammen aus
       \begin{itemize}
       \item "Ubungsbl"atterpunkte
       \item Mittsemesterklausur (ca. 2 "Ubungsbl"atter wert)
       \item Vorrechnen im Tutorium (einmalig $\leq 6$ "UP)
-      \begin{itemize}
-        \item Aktuelles oder zuletzt abgegebenes "UB (falls Musterl"osung noch
-              nicht ver"offentlicht)
-      \end{itemize}
-      \item Zusatzaufgaben auf "Ubungsbl"attern (z"ahlen nicht zu 100\%)
-      \item Programmierwettbewerb (z"ahlt nicht zu 100\%)
+      \item Zusatzpunkte (z"ahlen nicht zur Gesamtpunktzahl)
+        \begin{itemize}
+        \item Zusatzaufgaben auf "Ubungsbl"attern
+        \item Programmierwettbewerb
+        \end{itemize}
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -158,14 +164,15 @@
   \item Ausgabe Mittwoch, Abgabe nach 9 Tagen freitags bis 12:45 im Infobau
   \item Partnerarbeit erlaubt und erw"unscht
     \begin{itemize}
+    \item beide m"ussen per WebInscribe im selben Tutorium eingetragen sein
     \item nur \emph{eine} Abgabe pro Team (mit zwei Namen!)
     \item Name(n), Matrikelnummer(n) und Tutoriumsnummer nicht vergessen!
     \end{itemize}
-  \item Offensichtlich abgeschrieben $\rightarrow$ 0 Punkte auf gesamtes Blatt
   \item Korrekturkriterien
     \begin{itemize}
     \item Punktevergabe meist auf Blatt aufgeschl"usselt
     \item Noch genauere Aufschl"usselung f"ur Tutoren, zum Zwecke der Einheitlichkeit
+    \item Offensichtlich abgeschrieben $\rightarrow$ 0 Punkte auf gesamtes Blatt
     \end{itemize}
   \item Bei Fragen/Unklarheiten/Zweifeln bitte nach dem Tutorium ansprechen
 
@@ -178,6 +185,17 @@
   \item Veranstaltungshomepage: \url{http://algo2.iti.kit.edu/AlgorithmenI2013.php}
   \item Diskussionsforum f"ur "Ubungsaufgaben:
      \small \url{https://ilias.studium.kit.edu/goto_produktiv_crs_216182.html}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Let's do some algorithm stuff!}
+  \begin{figure}[!t]
+    \includegraphics[width=300px]{fastbogosort.png}
+    \label{fig:fastbogosort}
+  \end{figure}
+  \begin{itemize}
+  \item Quelle: \url{http://xkcd.com/1185/}
   \end{itemize}
 \end{frame}
 
@@ -216,7 +234,7 @@
   \item Im Folgenden Untersuchung der \textbf{Worst-Case-Laufzeit}
   \item Idee: Z"ahlen von Operationen in einem geeigneten Rechnermodell
     \begin{itemize}
-    \item \textbf{RAM-Modell} Speicherzugriffe und arithmetische Operationen
+    \item \textbf{RAM-Modell}: Speicherzugriffe und arithmetische Operationen
           ben"otigen konstante Zeit
     \end{itemize}
   \end{itemize}
@@ -258,10 +276,10 @@
     \begin{itemize}
     \item Vor allem gro"se $n$ sind interessant
     \end{itemize}
-  \item Beispiel: $f(n) = \frac{1}{4}n^2 + 3n$ verh"alt sich f"ur gen"ugend gro"ses
-        $n$ bis auf Faktor $\frac{1}{4}$ wie $g(n) = n^2$, wir wollen
+  \item Beispiel: $f(n) = \frac{5}{2}n^2 + \frac{1}{2}n$ verh"alt sich f"ur gen"ugend gro"ses
+        $n$ bis auf Faktor $\frac{5}{2}$ wie $g(n) = n^2$, wir wollen
         Zusammenhang ausdr"ucken k"onnen \\[1em]
-          $\rightarrow f(n) = \Theta(g(n))$
+          $\rightarrow f(n) = \Theta(n^2)$
  %\begingroup
 %\setbeamercolor{block title}{bg=red,fg=blue}%bg=background, fg= foreground
 %\setbeamercolor{block body}{bg=yellow,fg=green}%bg=background, fg= foreground
@@ -337,15 +355,20 @@
       \\ \hline
   $f \in \bigO(g)$
       & \footnotesize h"ochstens so schnell wie \normalsize
-      & $\exists c: \ f(n) \leq c\cdot g(n) \text{ ffa } n$
+      & $\textcolor{red}{\exists c}: \
+          f(n) \leq \textcolor{red}{c\cdot} g(n) \textcolor{blue}{\text{ ffa } n}$
       \\ \hline
   $f \in \Theta(g)$
       & genauso schnell wie
-      & \footnotesize $\exists c_1, c_2: \ c_1\cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \text{ ffa } n$ \normalsize
+      & \footnotesize $\textcolor{red}{\exists c_1, c_2}:
+        \ \textcolor{red}{c_1\cdot} f(n)
+            \leq g(n)
+            \leq \textcolor{red}{c_2 \cdot} f(n)
+          \textcolor{blue}{\text{ ffa } n}$ \normalsize
       \\ \hline
   $f \in \Omega(g)$
       & \footnotesize mindestens so schnell wie \normalsize
-      & $\exists c: \ f(n) \geq c\cdot g(n) \text{ ffa } n$
+      & $\textcolor{red}{\exists c}: \ f(n) \geq c\cdot g(n) \textcolor{blue}{\text{ ffa } n}$
       \\ \hline
   $f \in \omega(g)$
       & echt schneller als
@@ -355,8 +378,8 @@
   \end{center}
   \begin{itemize}
   \item $o(g) \subset \bigO(g)$, $\omega(g) \subset \Omega(g)$
-  \item $\Theta(g) = \bigO(g) \cap \Omega(g)$ \\[0.5em]
-        \quad $\rightarrow \Theta(g) \subset \bigO(g), \Omega(g)$
+  \item $\Theta(g) = \bigO(g) \cap \Omega(g) = \{ f:\ f \in \bigO(g) \wedge g \in \bigO(f)\}$
+  \item Insbesondere: $\Theta(g) \subset \bigO(g)$, $\Theta(g) \subset \Omega(g)$
   \end{itemize}
 \end{frame}
 
@@ -407,8 +430,12 @@
     \begin{itemize}
     \item Zerlege Problem in $a$ Teilprobleme der Gr"o"se $\frac{n}{b}$
     \item L"ose Teilprobleme rekursiv
-    \item F"uge Teilergebnisse zusammen in $O(f(n))$
+    \item F"uge Teilergebnisse zusammen in $\bigO(f(n))$
     \end{itemize}
+  \item Laufzeit als \emph{Rekurrenz} formuliert:
+    \[T(n) = a\cdot T\left(\frac{n}{b}\right) + \bigO(f(n))\]
+  \item Ausblick: Master-Theorem liefert L"osung der Gleichung, also Laufzeitklasse von
+        $T$
   \end{itemize}
 \end{frame}
 
