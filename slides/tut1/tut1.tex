@@ -1,133 +1,20 @@
-\documentclass[t]{beamer}
-%\documentclass{beamer}
-\listfiles
+\input{../preamble}
 
-\mode<presentation>
-{
-  \usetheme[deutsch,titlepage0]{KIT}
-% \usetheme[usefoot]{KIT}
-% \usetheme{KIT}
-
-%%  \usefonttheme{structurebold}
-
-  \setbeamercovered{transparent}
-
-  %\setbeamertemplate{enumerate items}[circle]
-  \setbeamertemplate{enumerate items}[ball]
-
-}
-\usepackage{babel}
-%\date{10.05.2010}
-%\DateText
-
-\newlength{\Ku}
-\setlength{\Ku}{1.43375pt}
-
-\usepackage[utf8]{inputenc}
-\usepackage[TS1,T1]{fontenc}
-\usepackage{array}
-\usepackage{multicol}
-\usepackage{xspace}
-\usepackage{xcolor}
-\usepackage{listings}
-\usepackage[sort&compress]{natbib}
-\usepackage{inconsolata}
-\usepackage[scaled]{beramono}
-
-%\usenavigationsymbols
-%\usenavigationsymbols[sfHhdb]
-%\usenavigationsymbols[sfhHb]
-
-\input{../config}
-
-\title[]{Tutorium Algorithmen I}
-\subtitle{Grundlagen Analyse und Entwurf \\[0.3em]
-          \footnotesize \authorName}
-
-\author[]{\authorName}
-
-\AuthorTitleSep{}
-
-\institute[]{INSTITUT FÜR THEORETISCHE INFORMATIK, PROF. SANDERS}
-
-\TitleImage[width=\titleimagewd]{title}
-
-\newlength{\tmplen}
-
-\newcommand{\verysmall}{\fontsize{6pt}{8.6pt}\selectfont}
-
-\newcommand{\bigO}{\ensuremath{\mathcal{O}}}
-
-\renewcommand{\arraystretch}{1.5}
-
-\definecolor{colkeywords}{rgb}{0,0,0.4}
-\definecolor{colcomment}{rgb}{0,0.5,0}
-\definecolor{colstring}{rgb}{0.5,0,0}
-\definecolor{colconst}{rgb}{0.9,0.1,0.8}
-\definecolor{collinenums}{rgb}{0.5,0.5,0.5}
-\definecolor{coldigit}{rgb}{0.9,0.1,0.8}
-
-\lstset{
-  basicstyle=\normalsize\ttfamily,
-  numbers=left,
-  numberstyle=\scriptsize,
-  numbersep=-5pt,
-  tabsize=4,
-  framexleftmargin=1mm,
-  xleftmargin=10mm,
-  escapeinside={\%*}{*)},
-  commentstyle=\color{colcomment},
-  keywordstyle=\color{colkeywords}\bfseries,
-  stringstyle=\color{colstring},
-  numberstyle=\color{collinenums},
-}
-
-\lstset{literate=%
-    {0}{{{\color{coldigit}0}}}1
-    {1}{{{\color{coldigit}1}}}1
-    {2}{{{\color{coldigit}2}}}1
-    {3}{{{\color{coldigit}3}}}1
-    {4}{{{\color{coldigit}4}}}1
-    {5}{{{\color{coldigit}5}}}1
-    {6}{{{\color{coldigit}6}}}1
-    {7}{{{\color{coldigit}7}}}1
-    {8}{{{\color{coldigit}8}}}1
-    {9}{{{\color{coldigit}9}}}1
-    {Ö}{{\"O}}1
-    {Ä}{{\"A}}1
-    {Ü}{{\"U}}1
-    {ß}{{\ss}}2
-    {ü}{{\"u}}1
-    {ä}{{\"a}}1
-    {ö}{{\"o}}1
-}
-
-\lstdefinelanguage{Pseudo}
-{keywords={Function,return,assert,while,for,to,if,else},%
-emph={FALSE,TRUE},
-emphstyle=\color{colconst},
-sensitive=true,%
-comment=[l]{//},%
-string=[b]",%
-}
-
-\lstset{language=Pseudo}
-
-\bibliographystyle{plain}
-
-\KITfoot{\parbox[t]{150mm}{
-  \vspace{0.1em} \tiny
-  \today
-  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad \textbf{Tutorium 1}
-  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad Algo 1
-}}
+\title[Tutorium Algorithmen I]{Tutorium Algorithmen I}
+\subtitle{Grundlagen Analyse und Entwurf}
 
 \begin{document}
 
 \begin{frame}
-  \maketitle
+  \titlepage
 \end{frame}
 
+%\begin{frame}{Outline}
+%\tableofcontents
+%\end{frame}
+
+\section{Organisatorisches}
+\subsection{Kontakt}
 \begin{frame}
   \frametitle{Euer Tutor}
   \begin{itemize}
@@ -141,6 +28,7 @@ string=[b]",%
   \end{itemize}
 \end{frame}
 
+\subsection{Modalit"aten}
 \begin{frame}
   \frametitle{Tutorium: Sinn, Zweck, Ablauf}
   \begin{itemize}
@@ -211,6 +99,7 @@ string=[b]",%
   \end{itemize}
 \end{frame}
 
+\subsection{Resourcen}
 \begin{frame}
   \frametitle{Sonstige Resourcen}
   \begin{itemize}
@@ -228,6 +117,7 @@ string=[b]",%
   \end{itemize}
 \end{frame}
 
+\subsection{"Uberblick heutiges Tutorium}
 \begin{frame}[fragile]
   \frametitle{Let's do some algorithm stuff!}
   \begin{figure}[!t]
@@ -259,6 +149,8 @@ string=[b]",%
   \end{itemize}
 \end{frame}
 
+\section{Laufzeitanalyse}
+\subsection{Grundlagen/RAM-Modell}
 \begin{frame}
   \frametitle{Laufzeitanalyse}
   \begin{itemize}
@@ -303,6 +195,7 @@ string=[b]",%
   }
 \end{frame}
 
+\subsection{Landau-Symbole}
 \begin{frame}
   \frametitle{Landau-Symbole}
   \begin{itemize}
@@ -423,6 +316,8 @@ string=[b]",%
   \end{itemize}
 \end{frame}
 
+\section{Korrektheitsbeweise}
+\subsection{Grundlagen}
 \begin{frame}[fragile]
   \frametitle{Linearsuche}
   \begin{itemize}
@@ -462,6 +357,8 @@ string=[b]",%
   \end{lstlisting}
 \end{frame}
 
+\section{Algorithmenentwurf}
+\subsection{Divide \& Conquer}
 \begin{frame}
   \frametitle{Divide \& Conquer}
   \begin{itemize}
