@@ -1,6 +1,6 @@
 all: $(addsuffix .pdf, $(basename $(wildcard *.tex)))
 
-%.pdf: %.tex
+%.pdf: %.tex ../*.tex
 	make clean
 	pdflatex $(basename $^)
 	#bibtex $(basename $^)
