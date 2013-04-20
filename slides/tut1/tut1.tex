@@ -308,9 +308,10 @@
   \end{tabular}
   \end{center}
   \begin{itemize}
-  \item $o(g) \subset \bigO(g)$, $\omega(g) \subset \Omega(g)$
+  \item $o(g) = \bigO(g) \setminus \Theta(g)$, $\omega(g) = \Omega(g) \setminus \Theta(g)$
   \item $\Theta(g) = \bigO(g) \cap \Omega(g) = \{ f:\ f \in \bigO(g) \wedge g \in \bigO(f)\}$
-  \item Insbesondere: $\Theta(g) \subset \bigO(g)$, $\Theta(g) \subset \Omega(g)$
+  %\item Insbesondere: $\Theta(g) \subset \bigO(g)$, $\Theta(g) \subset \Omega(g)$,
+                      %$o(g) \subset \bigO(g)$, $\omega(g) \subset \Omega(g)$
   \end{itemize}
 \end{frame}
 
