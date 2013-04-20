@@ -377,6 +377,16 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Mastertheorem}
+  \begin{itemize}
+  	\item 1. \textcolor{blue}{$T(n) \in \Theta (n^{log_ba})$}, falls $f(n) \in \bigO (n^{log_ba-\epsilon})$
+  	\item 2. \textcolor{blue}{$T(n) \in \Theta (n^{log_ba}*log_2n)$}, falls $f(n) \in \Theta (n^{log_ba})$
+  	\item 3. \textcolor{blue}{$T(n) \in \Theta (f(n))$}, falls $f(n) \in \Omega (n^{log_ba+\epsilon})$ und $a \cdot f(\frac{n}{b}) \le c\cdot f(n)$ mit $c < 1$ und hinreichend großem n
+  \end{itemize}
+  Dabei wird $\epsilon > 0$ vorausgesetzt
+\end{frame}
+
+\begin{frame}
   \frametitle{Beispiel Divide \& Conquer: \\ Schnelles Potenzieren}
   \begin{itemize}
   \item Gegeben: Zahl $x$, Exponent $n \in \mathbb{N}_0$
