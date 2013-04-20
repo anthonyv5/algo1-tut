@@ -200,12 +200,12 @@
   \frametitle{Landau-Symbole}
   \begin{itemize}
   \item Machen Aussagen "uber \textbf{asymptotisches Wachstum} von Funktionen
-  \item Konstante Faktoren werden ignoriert
+  \item \textcolor{red}{Konstante Faktoren werden ignoriert}
     \begin{itemize}
     \item Oft Implementierungsdetail, Kompensation durch
           bessere Programmiersprachen/Mikrooptimierung/Hardware
     \end{itemize}
-  \item Endlich viele Funktionswerte k"onnen ignoriert werden
+  \item \textcolor{blue}{Endlich viele Funktionswerte k"onnen ignoriert werden}
     \begin{itemize}
     \item Vor allem gro"se $n$ sind interessant
     \end{itemize}
@@ -258,8 +258,6 @@
         }
     \end{align*}
   }
-  %\item $f(n) = o(g(n))$
-  %\item $f(n) = \omega(g(n))$
   \end{itemize}
 \end{frame}
 
@@ -377,16 +375,6 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Mastertheorem}
-  \begin{itemize}
-  	\item 1. \textcolor{blue}{$T(n) \in \Theta (n^{log_ba})$}, falls $f(n) \in \bigO (n^{log_ba-\epsilon})$
-  	\item 2. \textcolor{blue}{$T(n) \in \Theta (n^{log_ba}*log_2n)$}, falls $f(n) \in \Theta (n^{log_ba})$
-  	\item 3. \textcolor{blue}{$T(n) \in \Theta (f(n))$}, falls $f(n) \in \Omega (n^{log_ba+\epsilon})$ und $a \cdot f(\frac{n}{b}) \le c\cdot f(n)$ mit $c < 1$ und hinreichend großem n
-  \end{itemize}
-  Dabei wird $\epsilon > 0$ vorausgesetzt
-\end{frame}
-
-\begin{frame}
   \frametitle{Beispiel Divide \& Conquer: \\ Schnelles Potenzieren}
   \begin{itemize}
   \item Gegeben: Zahl $x$, Exponent $n \in \mathbb{N}_0$
@@ -404,6 +392,34 @@
          \[\rightarrow \text{ Anzahl Multiplikationen }
            M(n) = M\left(\frac{n}{2}\right) + \bigO(1) = \bigO(\log n)\]
   }
+  \end{itemize}
+\end{frame}
+
+\subsection{Exkurs: Master-Theorem}
+\begin{frame}
+  \frametitle{Exkurs: Master-Theorem}
+  \begin{itemize}
+  \item Rekurrenz: $T(n) = a\cdot T\left(\frac{n}{b}\right) + f(n)$
+  \item L"osung: Vergleiche Potenz von $n$ in $f(n)$ mit $\log_b a$:
+    \begin{align}
+      \exists\epsilon > 0: \ f(n) \in \bigO\left(n^{\log_b a - \epsilon}\right) &\Rightarrow
+             T(n) \in \Theta\left(n^{\log_ba}\right) \\
+      \exists\epsilon > 0: \ f(n) \in \Omega\left(n^{\log_b a + \epsilon}\right) &\Rightarrow
+             T(n) \in \Theta\left(f(n)\right) \\
+      f(n) \in \Theta\left(n^{\log_b a}\right) &\Rightarrow
+             T(n) \in \Theta\left(n^{\log_b a} + \log n\right)
+    \end{align}
+  \item Beispiele:
+    \begin{itemize} \itemsep 1em
+    \item $T(n) = 2\cdot T\left(\frac{n}{3}\right) + \Theta(n^2)$
+      \visible<2->{\textcolor{red}{$\rightarrow T(n) = \Theta(n^2)$}}
+    \item $T(n) = 2\cdot T\left(\frac{n}{3}\right) + \Theta(n)$
+      \visible<3->{\textcolor{red}{$\rightarrow T(n) = \Theta(n)$}}
+    \item $T(n) = 2\cdot T\left(\frac{n}{2}\right) + \Theta(n)$
+      \visible<4->{\textcolor{red}{$\rightarrow T(n) = \Theta(n \cdot \log n)$}}
+    \item $T(n) = T\left(\frac{n}{2}\right) + \bigO(1)$
+      \visible<5->{\textcolor{red}{$\rightarrow T(n) = \Theta(\log n)$}}
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
