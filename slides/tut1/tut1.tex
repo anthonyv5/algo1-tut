@@ -348,7 +348,7 @@
       r := array.length    // = %*$\color{colcomment}{2^k}$*)
       while r - l > 1
           m := %*$\frac{1}{2}\left(l+r\right)$*)
-          if x %*$\leq$*) array[m]
+          if x < array[m]
               r := m
           else
               l := m
