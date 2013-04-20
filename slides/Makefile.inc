@@ -5,7 +5,7 @@ all: $(addsuffix .pdf, $(basename $(wildcard *.tex)))
 	pdflatex $(basename $^)
 	#bibtex $(basename $^)
 	pdflatex $(basename $^)
-	pdflatex $(basename $^)
+	#pdflatex $(basename $^)
 
 clean:
 	-rm *.pdf *.out *.bbl *.log *.blg *.aux \
