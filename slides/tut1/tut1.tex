@@ -22,7 +22,7 @@
     \item Bachelor Informatik, 4. Semester
     \item E-Mail: \authorEmail
       \begin{itemize}
-      \item Auch bei Fragen gerne schreiben!
+      \item Bei jeglichen Fragen gerne schreiben!
       \end{itemize}
     \item Diese Folien: \authorHomepage
   \end{itemize}
@@ -134,18 +134,20 @@
   \begin{itemize}
   \item Algorithmenanalyse
     \begin{itemize}
-    \item Laufzeitanalyse
+    \item Komplexit"atstheorie
       \begin{itemize}
       \item RAM-Modell
       \item Landau-Symbole
       \end{itemize}
-    \item Korrektheitsbeweise: Schleifeninvarianten
+    \item Formale Analyse
+      \begin{itemize}
+      \item Beweisen mit Schleifeninvarianten
+      \end{itemize}
     \end{itemize}
   \item (Algorithmenentwurf)
     \begin{itemize}
-    \item Divide \& Conquer
+    \item Divide \& Conquer + Master-Theorem
     \end{itemize}
-  \item Aktuelles "Ubungsblatt
   \end{itemize}
 \end{frame}
 
@@ -316,17 +318,51 @@
   \end{itemize}
 \end{frame}
 
-\section{Korrektheitsbeweise}
-\subsection{Grundlagen}
+\section{Formale Analyse}
+
+\subsection{Einleitung}
+\begin{frame}
+  \frametitle{Formale Analyse von Algorithmen}
+  \begin{itemize}
+  \item Ziel: Konkrete Aussagen "uber Laufzeit und Korrektheit eines Algorithmus
+  \item M"ogliche Fragestellungen:
+    \begin{itemize}
+    \item Terminiert der Algorithmus immer?
+    \item Liefert der Algorithmus immer das korrekte Ergebnis?
+    \item Braucht der Algorithmus f"ur jede m"ogliche Eingabe der Gr"osse $n$
+          h"ochstens $\bigO(f(n))$ Operationen?
+    \end{itemize}
+  \item Verschiedene Methoden: Schleifeninvarianten, Master-Theorem
+  \end{itemize}
+\end{frame}
+
+\subsection{Schleifeninvarianten}
+\begin{frame}
+  \frametitle{Beweise mit Schleifeninvarianten}
+  \begin{itemize}
+  \item Schleifeninvariante = Aussage, die nach jeder Iteration einer Schleife erf"ullt ist
+  \item Involviert meist die Werte von Schleifenvariablen
+  \item Vorgehen:
+    \begin{itemize}
+    \item Variablenwerte ver"anderlich: Indiziere Variablen mit Zeitindex (z.B. $t$ oder $i$) \\
+          \emph{Beispiel}: $k_t$ sei der Wert der Variablen $k$ nach
+                           der $t$-ten Iteration der Schleife
+    \item Formuliere Aussage, die nach jeder Iteration gelten soll \\
+          $\rightarrow$ Hier ist \textbf{Kreativit"at} ist gefragt!
+    \item Beweis mittels \textbf{vollst"andiger Induktion} nach $t$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]
-  \frametitle{Linearsuche}
+  \frametitle{\visible<2->{Linearsuche}}
   \begin{itemize}
   \item Eingabe: Array \emph{array} der Gr"o"se $n$ und Element $x$
-  \item Ausgabe: Index $i \in \{0,\ldots,n-1\}$ mit $\text{\emph{array}}[i] = x$
-                 oder ,,not found'', falls das Element nicht im Array existiert
+  \item Ausgabe: \visible<2->{Index $i \in \{0,\ldots,n-1\}$ mit $\text{\emph{array}}[i] = x$
+    oder ,,not found'', falls das Element nicht im Array existiert}
   \end{itemize}
   \begin{lstlisting}
-  Function LINEAR-SEARCH(array, x)
+  Function %*\visible<2->{LINEAR-SEARCH}*)(array, x)
       for i := 0 to array.length - 1
           if x = array[i]
               return i
@@ -337,11 +373,11 @@
 \begin{frame}[fragile]
   \frametitle{Bin"are Suche}
   \begin{itemize}
-  \item Eingabe: Array \emph{array} der Gr"o"se $2^k$ mit $k \geq 1$ und Element
+  \item Eingabe: Array \emph{array} der Gr"o"se $n = 2^k$ mit $k \geq 1$ und Element
                  $x \in \text{\emph{array}}$. \\
                  \emph{array} sei aufsteigend sortiert und enthalte
                  keine doppelten Elemente
-  \item Ausgabe: Index $i \in \{0,\ldots,2^k-1\}$ mit $a[i] = x$
+  \item Ausgabe: Index $i \in \{0,\ldots,n-1\}$ mit $a[i] = x$
   \end{itemize}
   \begin{lstlisting}
   Function BINARY-SEARCH(array, x)
@@ -385,10 +421,10 @@
   \visible<2->{\item Das geht viel besser! Ideen?}
   \visible<3->{
   \item Beobachtung:
-    \begin{align}
+    \begin{align*}
     x^{2k} &= \left(x^k\right)^2 \\
     x^{2k+1} &= \left(x^k\right)^2 \cdot x
-    \end{align}
+    \end{align*}
   \item Also: 1 Teilproblem der Gr"o"se $\frac{n}{2}$
   \item Zusammenf"ugen mit $\leq 2$ Multiplikationen in
          \[\rightarrow \text{ Anzahl Multiplikationen }
@@ -397,20 +433,20 @@
   \end{itemize}
 \end{frame}
 
-\subsection{Exkurs: Master-Theorem}
+\subsection{Master-Theorem}
 \begin{frame}
-  \frametitle{Exkurs: Master-Theorem}
+  \frametitle{Master-Theorem}
   \begin{itemize}
   \item Rekurrenz: $T(n) = a\cdot T\left(\frac{n}{b}\right) + f(n)$
   \item L"osung: Vergleiche Potenz von $n$ in $f(n)$ mit $\log_b a$:
-    \begin{align}
+    \begin{align*}
       \exists\epsilon > 0: \ f(n) \in \bigO\left(n^{\log_b a - \epsilon}\right) &\Rightarrow
              T(n) \in \Theta\left(n^{\log_ba}\right) \\
       \exists\epsilon > 0: \ f(n) \in \Omega\left(n^{\log_b a + \epsilon}\right) &\Rightarrow
              T(n) \in \Theta\left(f(n)\right) \\
       f(n) \in \Theta\left(n^{\log_b a}\right) &\Rightarrow
              T(n) \in \Theta\left(n^{\log_b a} + \log n\right)
-    \end{align}
+    \end{align*}
   \item Beispiele:
     \begin{itemize} \itemsep 1em
     \item $T(n) = 2\cdot T\left(\frac{n}{3}\right) + \Theta(n^2)$
