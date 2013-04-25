@@ -26,12 +26,15 @@ b &= b_1\cdot 2^m + b_0 \\[1em]
                             + \underbrace{(a_1 b_0 + a_0 b_1)}_{\eqdef x}\cdot 2^m
 \end{align*}
 
-Um $a_1 b_0$ und $a_0 b_1$ zu berechnen, br"auchten wir bei einer naiven Implementierung 2 rekursive Aufrufe des
+Um $x$ zu berechnen, br"auchten wir bei einer naiven Implementierung 2 rekursive Aufrufe des
 Multiplikationsalgorithmus. Wir nutzen aber nun aus, dass gilt:
 
-\[(a_0 + a_1)(b_0 + b_1) = a_0 b_0 + a_0 b_1 + a_1 b_0 + a_1 a_1 = c_{00} + c_{11} + x \]
+\begin{align*}
+  (a_0 + a_1)(b_0 + b_1) &= a_0 b_0 + a_0 b_1 + a_1 b_0 + a_1 a_1 = c_{00} + c_{11} + x \\
+  \implies x &= (a_0 + a_1)(b_0 + b_1) - c_{00} - c_{11}
+\end{align*}
 
-Also berechnen wir rekursiv:
+Also berechnen wir mittels 3 rekursiver Aufrufe:
 
 \begin{itemize}
 \item $c_{00}$
@@ -43,8 +46,11 @@ Und errechnen dann $a \cdot b$ ohne weitere Multiplikationen mittels der Formel
 
 \[ a \cdot b = c_{00} + c_{11} + \left(y - c_{00} - c_{11}\right) \]
 
-Laufzeit:
+Wir ben"otigen zus"atzlich noch konstant viele Additionsoperationen, welche jeweils
+in $\bigO(n)$ zu bewerkstelligen sind. Also ergibt sich f"ur die Gesamtlaufzeit:
 
-\[ T(n) = 3\cdot T\left(\frac{n}{2}\right) + \bigO(n) = \bigO(n^{log_2 3}) = \bigO(n^{1,59})\]
+\[ T(n) = 3\cdot T\left(\frac{n}{2}\right) + \bigO(n)\ \  \overset{Master-T.}{\in} \ \ \bigO(n^{log_2 3}) = \bigO(n^{1,59})\]
+
+Das Ganze funktioniert nat"urlich nicht nur zur Basis 2, sondern f"ur beliebige Basen $B$.
 
 \end{document}
