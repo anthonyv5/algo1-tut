@@ -362,14 +362,14 @@
   \begin{itemize}
   \item Eingabe: Array \emph{array} der Gr"o"se $n$ und Element $x$
   \item Ausgabe: \visible<2->{Index $i \in \{0,\ldots,n-1\}$ mit $\text{\emph{array}}[i] = x$
-    oder ,,not found'', falls das Element nicht im Array existiert}
+    oder $\bot$, falls das Element nicht im Array existiert}
   \end{itemize}
   \begin{lstlisting}
   Function %*\visible<2->{LINEAR-SEARCH}*)(array, x)
       for i := 0 to array.length - 1
           if x = array[i]
               return i
-      return "not found"
+      return %*$\bot$*)
   \end{lstlisting}
 \end{frame}
 
