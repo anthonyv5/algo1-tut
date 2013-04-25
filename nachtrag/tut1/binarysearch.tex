@@ -1,0 +1,85 @@
+\documentclass{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage[normalem]{ulem}
+
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\bigO}{\ensuremath{\mathcal{O}}}
+
+\begin{document}
+\section{Bin"arsuche: Invarianten}
+
+Sei $n = 2^k$ die L"ange des Eingabearrays $array$.
+
+Seien $l_t$ bzw. $r_t$ die Werte der Variablen $l$ bzw. $r$ nach der $t$-ten Iteration (nur definiert, falls der Algorithmus auch
+$\geq t$ Iterationen macht). $l_0$ und $r_0$ seien die Anfangswerte von $l$ und $r$.
+Sei $i$ der eindeutig bestimmte Index mit $array[i] = x$.
+
+Sinnvolle Invarianten k"onnten z.B. sein:
+
+\begin{align}
+r_t - l_t = 2^{k-t} \ \ \forall t \leq k \\
+l_t \leq i < r_t \ \ \forall t \leq k
+\end{align}
+
+Daraus ergeben sich folgende Folgerungen:
+
+\begin{itemize}
+\item Aus (1) folgt, dass $r_k - l_k = 2^0 = 1$, also stoppt der Algorithmus nach sp"atestens $k$ Iterationen.
+Er stoppt sogar nach genau $k$ Iterationen, da $r_t - l_t > 1 \ \ \forall t < k$
+\item Falls der Algorithmus terminiert (was er nach (1) tut), gilt am Ende des Algorithmus:
+      $r_k - l_k = 1$, also $l_k \leq i < r_k = l_k + 1$. Damit ist $l_k = i$ und in L10 wird
+      das korrekte Ergebnis zur"uckgegeben
+\end{itemize}
+
+Der "Ubersichtlichkeit halber werden (1) und (2) hier getrennt bewiesen. Man kann auch
+beide Invarianten auf einmal beweisen, was etwas Schreibarbeit spart. \\
+
+\noindent\textbf{Beweis (1)}\\
+
+Der Beweis erfolgt per vollst"andiger Induktion "uber $t$.\\
+
+\noindent\textbf{IA}: Sei $t = 0$. Dann gilt aufgrund von L2-3: $r_t - l_t = 2^k - 0$ \\
+\textbf{IS}: Sei $t \in \mathbb{N}, t \leq k - 1$ und $r_t - r_l = 2^{k-t}$. Zu zeigen: $r_{t+1} - l_{t+1} = 2^{k-(t+1)} = \frac{1}{2}\cdot 2^{k-t}$ \\
+
+Sei zun"achst $m_{t+1} \defeq \frac{1}{2}(l_t + r_t)$ der Wert von $m$, der innerhalb der $(t+1)$ten Iteration berechnet wird.
+Nach IV ist $m$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
+
+\uline{Fall 1}: $x < array[m]$
+
+Dann setzt der Algorithmus also $l_{t+1} = l_t$ sowie $r_{t+1} = m_{t+1}$. Also gilt:
+\[r_{t+1} - l_{t+1} = \frac{1}{2}(l_t + r_t) - l_t = \frac{1}{2}(r_t - l_t) \overset{IV}{=} \frac{1}{2}\cdot 2^{k-t}\]
+
+\uline{Fall 2}: $x \geq array[m]$
+
+I.d.F setzt der Algorithmus $l_{t+1} = m_{t+1}$ sowie $r_{t+1} = r_t$. Also gilt:
+\[r_{t+1} - l_{t+1} = r_t - \frac{1}{2}(l_t + r_t) = \frac{1}{2}(r_t - l_t) \overset{IV}{=} \frac{1}{2}\cdot 2^{k-t}\] \\[3em]
+
+\noindent\textbf{Beweis (2)}\\
+
+Der Beweis erfolgt per vollst"andiger Induktion "uber $t$.\\
+
+\noindent\textbf{IA}: Sei $t = 0$. Dann gilt: $l_t = 0 \leq i < n = r_t$ \\
+\textbf{IS}: Sei $t \in \mathbb{N}, t \leq k - 1$ und $l_t \leq i < r_t$. Zu zeigen: $l_{t+1} \leq i < r_{t+1}$ \\
+
+Sei zun"achst $m_{t+1} \defeq \frac{1}{2}(l_t + r_t)$ der Wert von $m$, der innerhalb der $(t+1)$ten Iteration berechnet wird.
+Nach IV ist $m$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
+
+\uline{Fall 1}: $x < array[m]$
+
+Da $array$ aufsteigend sortiert ist, gilt dann auch $i < m$.
+Der Algorithmus setzt $l_{t+1} = l_t$ sowie $r_{t+1} = m_{t+1}$. Also gilt:
+\[l_{t+1} = l_t \overset{IV}{\leq} i < m = r_{t+1}\]
+
+\uline{Fall 2}: $x \geq array[m]$
+
+Da $array$ aufsteigend sortiert ist, gilt dann auch $i \geq m$.
+Der Algorithmus setzt $l_{t+1} = m_{t+1}$ sowie $r_{t+1} = r_t$. Also gilt:
+\[l_{t+1} = m \leq i \overset{IV}{<} r_t = r_{t+1}\]
+
+\end{document}

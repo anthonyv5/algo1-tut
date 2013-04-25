@@ -1,0 +1,50 @@
+\documentclass{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage{mathtools}
+
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\bigO}{\ensuremath{\mathcal{O}}}
+
+\begin{document}
+\section{Karatsuba}
+Seien $a$, $b$ Zahlen mit $n = 2^k = 2m$ Bits mit
+
+\begin{align*}
+a &= \underbrace{a^{(2m-1)}a^{(2m-2)}\cdots a^{(m)}}_{\eqdef a_1}\underbrace{a^{(m-1)} \cdots a^{(0)}}_{\eqdef a_0} \\
+b &= \underbrace{b^{(2m-1)}b^{(2m-2)}\cdots b^{(m)}}_{\eqdef b_1}\underbrace{b^{(m-1)} \cdots b^{(0)}}_{\eqdef b_0}
+\end{align*}
+
+Wobei $a^{(i)}$ und $b^{(j)}$ die Ziffern (Bits) der Zahl sind. Dann gilt:
+
+\begin{align*}
+a &= a_1\cdot 2^m + a_0 \\
+b &= b_1\cdot 2^m + b_0 \\[1em]
+\implies a \cdot b &= a_1 b_1\cdot 2^{2m} + a_1 b_0 2^m + a_0 b_1 2^m + a_0 b_0 \\
+&= \underbrace{a_1 b_1}_{\eqdef c_{11}}\cdot 2^{2m} + \underbrace{a_0 b_0}_{\eqdef c_{00}}
+                            + \underbrace{(a_1 b_0 + a_0 b_1)}_{\eqdef x}\cdot 2^m
+\end{align*}
+
+Um $a_1 b_0$ und $a_0 b_1$ zu berechnen, br"auchten wir bei einer naiven Implementierung 2 rekursive Aufrufe des
+Multiplikationsalgorithmus. Wir nutzen aber nun aus, dass gilt:
+
+\[(a_0 + a_1)(b_0 + b_1) = a_0 b_0 + a_0 b_1 + a_1 b_0 + a_1 a_1 = c_{00} + c_{11} + x \]
+
+Also berechnen wir rekursiv:
+
+\begin{itemize}
+\item $c_{00}$
+\item $c_{11}$
+\item $y \defeq (a_0 + a_1)(b_0 + b_1)$
+\end{itemize}
+
+Und errechnen dann $a \cdot b$ ohne weitere Multiplikationen mittels der Formel
+
+\[ a \cdot b = c_{00} + c_{11} + \left(y - c_{00} - c_{11}\right) \]
+
+Laufzeit:
+
+\[ T(n) = 3\cdot T\left(\frac{n}{2}\right) + \bigO(n) = \bigO(n^{log_2 3}) = \bigO(n^{1,59})\]
+
+\end{document}
