@@ -44,18 +44,18 @@ beide Invarianten auf einmal beweisen, was etwas Schreibarbeit spart. \\
 
 Der Beweis erfolgt per vollst"andiger Induktion "uber $t$.\\
 
-\noindent\textbf{IA}: Sei $t = 0$. Dann gilt aufgrund von L2-3: $r_t - l_t = 2^k - 0$ \\
+\noindent\textbf{IA}: Sei $t = 0$. Dann gilt aufgrund von L2-3: $r_t - l_t = 2^k - 0 = 2^{k-0}$ \\
 \textbf{IS}: Sei $t \in \mathbb{N}, t \leq k - 1$ und $r_t - r_l = 2^{k-t}$. Zu zeigen: $r_{t+1} - l_{t+1} = 2^{k-(t+1)} = \frac{1}{2}\cdot 2^{k-t}$ \\
 
 Sei zun"achst $m_{t+1} \defeq \frac{1}{2}(l_t + r_t)$ der Wert von $m$, der innerhalb der $(t+1)$ten Iteration berechnet wird.
-Nach IV ist $m$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
+Nach IV ist $m_{t+1}$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
 
-\uline{Fall 1}: $x < array[m]$
+\uline{Fall 1}: $x < array[m_{t+1}]$
 
 Dann setzt der Algorithmus also $l_{t+1} = l_t$ sowie $r_{t+1} = m_{t+1}$. Also gilt:
 \[r_{t+1} - l_{t+1} = \frac{1}{2}(l_t + r_t) - l_t = \frac{1}{2}(r_t - l_t) \overset{IV}{=} \frac{1}{2}\cdot 2^{k-t}\]
 
-\uline{Fall 2}: $x \geq array[m]$
+\uline{Fall 2}: $x \geq array[m_{t+1}]$
 
 I.d.F setzt der Algorithmus $l_{t+1} = m_{t+1}$ sowie $r_{t+1} = r_t$. Also gilt:
 \[r_{t+1} - l_{t+1} = r_t - \frac{1}{2}(l_t + r_t) = \frac{1}{2}(r_t - l_t) \overset{IV}{=} \frac{1}{2}\cdot 2^{k-t}\] \\[3em]
@@ -68,18 +68,18 @@ Der Beweis erfolgt per vollst"andiger Induktion "uber $t$.\\
 \textbf{IS}: Sei $t \in \mathbb{N}, t \leq k - 1$ und $l_t \leq i < r_t$. Zu zeigen: $l_{t+1} \leq i < r_{t+1}$ \\
 
 Sei zun"achst $m_{t+1} \defeq \frac{1}{2}(l_t + r_t)$ der Wert von $m$, der innerhalb der $(t+1)$ten Iteration berechnet wird.
-Nach IV ist $m$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
+Nach IV ist $m_{t+1}$ eine nat"urliche Zahl, denn $l_t$ und $r_t$ sind durch $2$ teilbar.
 
-\uline{Fall 1}: $x < array[m]$
+\uline{Fall 1}: $x < array[m_{t+1}]$
 
-Da $array$ aufsteigend sortiert ist, gilt dann auch $i < m$.
+Da $array$ aufsteigend sortiert ist, gilt dann auch $i < m_{t+1}$.
 Der Algorithmus setzt $l_{t+1} = l_t$ sowie $r_{t+1} = m_{t+1}$. Also gilt:
-\[l_{t+1} = l_t \overset{IV}{\leq} i < m = r_{t+1}\]
+\[l_{t+1} = l_t \overset{IV}{\leq} i < m_{t+1} = r_{t+1}\]
 
-\uline{Fall 2}: $x \geq array[m]$
+\uline{Fall 2}: $x \geq array[m_{t+1}]$
 
-Da $array$ aufsteigend sortiert ist, gilt dann auch $i \geq m$.
+Da $array$ aufsteigend sortiert ist, gilt dann auch $i \geq m_{t+1}$.
 Der Algorithmus setzt $l_{t+1} = m_{t+1}$ sowie $r_{t+1} = r_t$. Also gilt:
-\[l_{t+1} = m \leq i \overset{IV}{<} r_t = r_{t+1}\]
+\[l_{t+1} = m_{t+1} \leq i \overset{IV}{<} r_t = r_{t+1}\]
 
 \end{document}

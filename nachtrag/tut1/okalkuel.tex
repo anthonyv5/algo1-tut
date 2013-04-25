@@ -31,9 +31,12 @@ die Monotonie des Logarithmus aus. Dies ist aber ein Widerspruch, denn f"ur $n >
 dann mit (1), dass $2^{2n} \leq c\cdot 2^n$ und gleichzeitig $2^{2n} > c\cdot 2^n$.
 \\
 
-Alternativ kann man auch mit analytischen Methoden zeigen, dass $2^{2n} \in \omega{2^n}$ gilt, denn
+Alternativ kann man auch mit analytischen Methoden zeigen, dass $2^{2n} \in \omega(2^n)$ gilt, denn
 
 \[ \frac{2^{2n}}{2^n} = 2^n \ \xrightarrow{n \rightarrow \infty} \ \infty \]
+
+Da f"ur alle Funktionen $g$ die Mengen $\bigO(g)$ und $\omega(g)$ disjunkt sind, folgt dann
+die Behauptung. \\
 
 \noindent\textbf{Behauptung}: $\sqrt{n} \in \omega(\log^2 n)$ \\
 \textbf{Beweis}:   \\
@@ -62,13 +65,13 @@ $= \infty$ ist.
 Beweis der Einfachkeit halber f"ur gerade $n$. Sei also $n = 2k$ mit $k \in \mathbb{N}$. Dann gilt:
 
 \begin{align*}
-  n! &= \underbrace{(2k)\cdot(2k-1)\cdots(k+1)}_{k \text{ Faktoren}}\cdot \underbrace{k \cdot (k-1) \cdots 3 \cdot 2}_{k - 1 \text{ Faktoren}} \cdot 1  \\
+  n! &= \underbrace{(2k)\cdot(2k-1)\cdots(k+1)}_{k \text{ Faktoren } \geq k+1}\cdot \underbrace{k \cdot (k-1) \cdots 3 \cdot 2}_{k - 1 \text{ Faktoren } \geq 2} \cdot 1  \\
   &\geq (k+1)^k \cdot 2^{k-1} \\
   &= \frac{1}{2} \cdot (k+1)^k \cdot 2^k \\
   &\geq \frac{1}{2} \cdot \left(\frac{n}{2}\right)^{\frac{n}{2}} \cdot 2^{\frac{n}{2}} \\
   &= \frac{1}{2} n^{\frac{n}{2}} \\
-  &= \frac{1}{2} {n^n}^{\frac{1}{2}} \\
-  &= \frac{1}{2} \sqrt{n^n}
+  &= \frac{1}{2} \left(n^n\right)^{\frac{1}{2}} \\
+  &= \frac{1}{2} \sqrt{n^n} \in \Omega(\sqrt{n^n})
 \end{align*}
 
 \end{document}
