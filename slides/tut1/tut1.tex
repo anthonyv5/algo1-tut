@@ -134,12 +134,12 @@
   \begin{itemize}
   \item Algorithmenanalyse
     \begin{itemize}
-    \item Komplexit"atstheorie
+    \item Laufzeitanalyse
       \begin{itemize}
       \item RAM-Modell
       \item Landau-Symbole
       \end{itemize}
-    \item Formale Analyse
+    \item Formales Argumentieren
       \begin{itemize}
       \item Beweisen mit Schleifeninvarianten
       \end{itemize}
@@ -160,10 +160,10 @@
         in Abh"angigkeit der Eingabegr"o"se (mathematische Funktion!)
   \item Stufe verschiedene Eingabetypen ein:
     \begin{itemize}
-    \item \textbf{Worst case}: Familie von Eingaben, bei denen der Algorithmus
-          besonders viel Laufzeit erfordert
     \item \textbf{Best case}: Familie von Eingaben, bei denen der Algorithmus
           besonders schnell fertig wird (meist uninteressant)
+    \item \textbf{Worst case}: Familie von Eingaben, bei denen der Algorithmus
+          besonders viel Laufzeit erfordert
     \end{itemize}
   \item Im Folgenden Untersuchung der \textbf{Worst-Case-Laufzeit}
   \item Idee: Z"ahlen von Operationen in einem geeigneten Rechnermodell
@@ -182,8 +182,8 @@
   \end{itemize}
   \begin{lstlisting}
   Function %*\visible<2->{UNIQUE}*)(array, x)
-      for i := 0 to array.length - 1
-          for j := i + 1 to array.length - 1
+      for i := 0 to n - 1
+          for j := i + 1 to n - 1
               if array[i] = array[j]
                   return FALSE
       return TRUE
@@ -228,37 +228,40 @@
 \begin{frame}
   \frametitle{Landau-Symbole (2)}
   \begin{itemize}
+  \item Seien $f, g: \mathbb{N} \rightarrow \mathbb{R}_{+}$
+  \visible<2->{
   \item $f \in \bigO(g) \iff$ $f$ ,,w"achst h"ochstens so schnell wie'' $g$
-      \[\visible<2->{\textcolor{red}{\exists c > 0}} \ \
-        \visible<3->{\textcolor{blue}{\exists n_0}} \quad
-        f(n) \leq \visible<2->{\textcolor{red}{c\cdot}} g(n) \ \
-        \forall n \ \visible<3->{\textcolor{blue}{\geq n_0}}\]
-  \visible<4->{
+      \[\visible<3->{\textcolor{red}{\exists c > 0}} \ \
+        \visible<4->{\textcolor{blue}{\exists n_0}} \quad
+        f(n) \leq \visible<3->{\textcolor{red}{c\cdot}} g(n) \ \
+        \forall n \ \visible<4->{\textcolor{blue}{\geq n_0}}\] \\
+  \visible<5->{
   \item $f \in \Omega(g) \iff$ $f$ ,,w"achst mindestens so schnell wie'' $g$
 
-      \[\visible<5->{\textcolor{red}{\exists c > 0}} \ \
-        \visible<6->{\textcolor{blue}{\exists n_0}} \quad
-        f(n) \geq \visible<5->{\textcolor{red}{c\cdot}} g(n) \ \
-        \forall n \ \visible<6->{\textcolor{blue}{\geq n_0}}\]
-  }
-  \visible<7->{
-  \item $f \in \Theta(g) \iff f \in \bigO(g) \text{ und } g \in \bigO(f)$
+      \[\visible<6->{\textcolor{red}{\exists c > 0}} \ \
+        \visible<7->{\textcolor{blue}{\exists n_0}} \quad
+        f(n) \geq \visible<6->{\textcolor{red}{c\cdot}} g(n) \ \
+        \forall n \ \visible<7->{\textcolor{blue}{\geq n_0}}\]
   }
   \visible<8->{
-  \item h"aufig auch $f = \bigO(g)$ anstatt $f \in \bigO(g)$ etc.
+  \item $f \in \Theta(g) \iff f \in \bigO(g) \text{ und } g \in \bigO(f)$
   }
   \visible<9->{
+  \item h"aufig auch $f = \bigO(g)$ anstatt $f \in \bigO(g)$ etc.
+  }
+  \visible<10->{
   \item Auch in Termen m"oglich:
     \begin{align*}
         &T(n) = 2\cdot T\left(\frac{n}{3}\right) + \bigO(n) \\
-        \visible<10->{
-        \iff \visible<11->{\textcolor{red}{\exists c > 0}} \ \
-          \visible<12->{\textcolor{blue}{\exists n_0}} \quad
+        \visible<11->{
+        \iff \visible<12->{\textcolor{red}{\exists c > 0}} \ \
+          \visible<13->{\textcolor{blue}{\exists n_0}} \quad
           &T(n) \leq 2\cdot T\left(\frac{n}{3}\right) +
-          \visible<11->{\textcolor{red}{c\cdot}} n \ \
-          \visible<12->{\textcolor{blue}{\forall n \  \geq n_0}}
+          \visible<12->{\textcolor{red}{c\cdot}} n \ \
+          \visible<13->{\textcolor{blue}{\forall n \  \geq n_0}}
         }
     \end{align*}
+  }
   }
   \end{itemize}
 \end{frame}
@@ -345,7 +348,7 @@
   \item Vorgehen:
     \begin{itemize}
     \item Variablenwerte ver"anderlich: Indiziere Variablen mit Zeitindex (z.B. $t$ oder $i$) \\
-          \emph{Beispiel}: $k_t$ sei der Wert der Variablen $k$ nach
+          \emph{Beispiel}: $v_t$ sei der Wert der Variablen $v$ nach
                            der $t$-ten Iteration der Schleife
     \item Formuliere Aussage, die nach jeder Iteration gelten soll \\
           $\rightarrow$ Hier ist \textbf{Kreativit"at} ist gefragt!
@@ -426,7 +429,7 @@
     x^{2k+1} &= \left(x^k\right)^2 \cdot x
     \end{align*}
   \item Also: 1 Teilproblem der Gr"o"se $\frac{n}{2}$
-  \item Zusammenf"ugen mit $\leq 2$ Multiplikationen in
+  \item Zusammenf"ugen mit $\leq 2$ Multiplikationen in $\bigO(1)$
          \[\rightarrow \text{ Anzahl Multiplikationen }
            M(n) = M\left(\frac{n}{2}\right) + \bigO(1) = \bigO(\log n)\]
   }
@@ -437,7 +440,7 @@
 \begin{frame}
   \frametitle{Master-Theorem}
   \begin{itemize}
-  \item Rekurrenz: $T(n) = a\cdot T\left(\frac{n}{b}\right) + f(n)$
+  \item Rekurrenz: $T(n) = a\cdot T\left(\frac{n}{b}\right) + f(n)$, $T(1) = \bigO(1)$
   \item L"osung: Vergleiche Potenz von $n$ in $f(n)$ mit $\log_b a$:
     \begin{align*}
       \exists\epsilon > 0: \ f(n) \in \bigO\left(n^{\log_b a - \epsilon}\right) &\Rightarrow
