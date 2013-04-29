@@ -1,0 +1,88 @@
+\input{../preamble}
+
+\title[Tutorium Algorithmen I]{Tutorium \tutNo, Algorithmen I}
+\subtitle{Woche 2 -- Beweise, }
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Reflektion "UB1}
+\subsection{O-Kalk"ul}
+\begin{frame}
+  \frametitle{O-Kalk"ul}
+  \begin{itemize}
+  \item $f(n) = O(n)$ ist g"angig, $f(n) \neq O(n)$ nicht. Stattdessen: $f(n) \not \in O(n)$
+  \item F"ur beliebige asymptotisch pos. Funktionen $f, g$ muss \uline{nicht} gelten,
+        dass $f \in O(g)$ oder $g \in O(f)$. \\
+        Gegenbeispiel: $f(n) \defeq |sin(n)|, g(n) \defeq |cos(n)|$
+  \item $O(f(n)) + O(g(n))$ bedeutet \uline{nicht} Mengenvereinigung. Vielmehr gilt:
+        $O(f(n)) + O(g(n)) = \{ a(n) + g(n) \ |\  a(n) \in O(f(n)), b(n) \in O(g(n)) \}$
+  \item $f(n) \in O(g(n))$ l"asst sich i.A. \uline{nicht} "uber
+        $\lim_{n \rightarrow \infty} |\frac{f(n)}{g(n)}|$
+        ausdr"ucken, der Limes muss nicht einmal existieren.
+        Stattdessen kann man $\limsup_{n \rightarrow \infty} |\frac{f(n)}{g(n)}|$ benutzen.
+  \end{itemize}
+\end{frame}
+
+\subsection{Beweisf"uhrung}
+\begin{frame}
+  \frametitle{Beweisf"uhrung}
+  \begin{itemize}
+  \item ,,$A \implies B$'': aus Aussage $A$ folgt Aussage $B$
+    \begin{itemize}
+    \item Problematisch: ,,Sei $x = 2$. $\implies x > 1$''
+    \item Besser: ,,Sei $x = 2$. Dann: $x > 1$'' \\[1em]
+    \item Problematisch: ,,Annahme: $A$ gilt nicht
+           $\implies B \implies C \ \lightning \implies A$''
+    \item Besser: ,,Annahme: $A$ gilt nicht. Dann gilt: $B \implies C \ \lightning$.
+          [Also ist die Annahme falsch und $A$ muss gelten.]''
+    \end{itemize}
+  \item Beweisrichtung muss richtig sein
+    \begin{itemize}
+    \item Problematisch: ,,Annahme: $1 > 2$. Dann gilt auch:
+          $3 = 2 + 1 > 2$. $3 > 2$ ist wahr,
+          \emph{also muss auch die Annahme wahr sein.}''
+    \item Aus einer falschen Aussage folgt Beliebiges!
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\renewcommand{\arraystretch}{1.0}
+\begin{frame}
+  \frametitle{Beweistipps}
+  \begin{itemize}
+  \item Behauptung und Beweis explizit trennen
+  \item ,,$\iff$'' eher selten verwenden, stattdessen ,,$\implies$''
+  \item Schema \textbf{direkter Beweis}: \\
+        Bekannt: $X \implies \ldots \implies$ Behauptung. $\square$
+  \item Schema \textbf{indirekter Beweis}: \\
+        Annahme: Behauptung falsch.
+        Dann: $X \implies \ldots \implies Y \ \lightning \ \square$
+  \end{itemize}
+
+  \begin{center}
+  \begin{tabular}{| l || l |} \hline
+  \textbf{Behauptung} & \textbf{Beweis} \\ \hline
+    $\forall x \in U: A(x)$
+      & Sei $x \in U$ [beliebig, aber fest]. Zeige: $A(x)$.
+      \\ \hline
+    $\exists x \in U: A(x)$
+      & Gib ein bestimmtes $x \in U$ an und zeige $A(x)$.
+      \\ \hline
+    $U \subseteq V$
+      & Sei $x \in U$. Zeige, dass $x \in V$.
+      \\ \hline
+    $U = V$
+      & Zeige $U \subseteq V$ und $V \subseteq U$.
+      \\ \hline
+    $\forall n \in \mathbb{N}, n \geq n_0: A(n)$
+      & Zeige $A(n)$ und $\forall n \geq n_0: A(n) \implies A(n+1)$
+      \\ \hline
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+\end{document}
