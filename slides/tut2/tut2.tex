@@ -9,6 +9,20 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \frametitle{"Uberblick}
+  \begin{itemize}
+  \item Reflektion "UB1
+  \item Einfache Datenstrukturen (Stacks, Queues)
+    \begin{itemize}
+    \item Amortisierte Analyse
+    \item Deamortisierung
+    \end{itemize}
+  \item Hashing
+  \item (Rekurrenzen)
+  \end{itemize}
+\end{frame}
+
 \section{Reflektion "UB1}
 \subsection{O-Kalk"ul}
 \begin{frame}
@@ -79,10 +93,161 @@
       & Zeige $U \subseteq V$ und $V \subseteq U$.
       \\ \hline
     $\forall n \in \mathbb{N}, n \geq n_0: A(n)$
-      & Zeige $A(n)$ und $\forall n \geq n_0: A(n) \implies A(n+1)$
+      & Zeige $A(n_0)$ und $\forall n \geq n_0: A(n) \implies A(n+1)$
       \\ \hline
   \end{tabular}
   \end{center}
 \end{frame}
+\renewcommand{\arraystretch}{1.5}
 
+\section{Datenstrukturen}
+\subsection{Einfache Datenstrukturen}
+\begin{frame}
+  \frametitle{Einfache Datenstrukturen}
+  \begin{definition}
+    Eine \textbf{Datenstruktur} ist eine Repr"asentation von Daten in einem
+    Rechnermodell, zusammen mit Algorithmen zur Modifikation und Abfrage der
+    verwalteten Daten (\emph{Operationen})
+  \end{definition}
+  \begin{itemize}
+  \item Elementare Bausteine:
+    \begin{itemize}
+      \item Arrays
+      \item Zeiger
+      \item Zusammengesetzte Objekte (Records/Structs/Nodes)
+    \end{itemize}
+  \item Werden zusammengesetzt zu komplexeren Datenstrukturen (verlinkte Listen,
+        Stacks, Queues, Suchb"aume...)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Einfache Datenstrukturen (2)}
+  \begin{itemize}
+    \item \textbf{Unbeschr"ankte/Dynamische Arrays}: Erlauben wahlfreien Zugriff in $\bigO(1)$
+          und \lstinline{pushBack}/\lstinline{popBack} in amortisiert $\bigO(1)$
+    \item \textbf{Doppelt verkettete Listen}: Erlauben
+          \lstinline|pushFront|/\lstinline|popFront|/
+          \lstinline|pushBack|/\lstinline|popBack|/\lstinline|remove| in $\bigO(1)$
+    \item \textbf{Einfach verlinkte Listen}: Erlauben
+          \lstinline|pushFront|/\lstinline|popFront|/\lstinline|removeAfter|
+          in $\bigO(1)$
+  \end{itemize}
+\end{frame}
+
+\subsection{Zusammensetzen von Datenstrukturen}
+\begin{frame}
+  \frametitle{Zusammengesetzte Datenstrukturen}
+  \begin{itemize}
+  \item \textbf{Gegeben}: Datenstruktur ,,Stack'' mit Operationen \lstinline|push|,
+        \lstinline|pop| und \lstinline|isEmpty|
+  \item Realisiere die Datenstruktur ,,Queue'' mit den Operationen \lstinline|enqueue|
+        und \lstinline|dequeue|
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Zusammengesetzte Datenstrukturen (2)}
+  \begin{itemize}
+  \item \textbf{L"osung}: Benutze 2 Stacks \lstinline|S1| und \lstinline|S2|.
+        \lstinline|enqueue| pusht auf \lstinline|S1|, \lstinline|dequeue| poppt von
+        \lstinline|S2|. Falls \lstinline|S2| leer wird, wird er wieder mit dem Inhalt
+        von \lstinline|S1| gef"ullt
+
+  \begin{lstlisting}
+  Function enqueue(x)
+      S1.push(x)
+
+  Function dequeue()
+      if S2.isEmpty()
+          while not S1.empty()
+              S2.push(S1.pop())
+      return S2.pop()
+  \end{lstlisting}
+
+  \item \textbf{Behauptung}: \lstinline|enqueue|/\lstinline|dequeue| haben amortisierte
+                             Laufzeit $\bigO(1)$
+  \end{itemize}
+\end{frame}
+
+\subsection{Demortisierung}
+\begin{frame}
+  \frametitle{Deamortisierung}
+  \begin{itemize}
+  \item Wir wollen Worst-Case-Laufzeit f"ur jede Einzeloperation garantieren
+    \begin{itemize}
+    \item Beispiel: Anforderungen an die maximale Verarbeitungszeit einer Anfrage
+    \end{itemize}
+  \item \textbf{Beispiel}: Gesucht ist eine Datenstruktur,
+        die deterministisch die Operationen eines dynamischen Arrays unterst"utzt:
+    \begin{itemize}
+    \item \lstinline|pushBack| in $\bigO(1)$
+    \item wahlfreier Zugriff in $\bigO(\log n)$
+    \end{itemize}
+  \item Ebenfalls m"oglich:
+    \begin{itemize}
+    \item \lstinline|pushBack| in $\bigO(\log n)$
+    \item wahlfreier Zugriff in $\bigO(1)$
+    \end{itemize}
+  \item Allokationen sollen dabei in $\bigO(1)$ m"oglich sein
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Deamortisierung (2)}
+  \begin{itemize}
+  \item L"osung:
+    \begin{itemize}
+    \item Doppelt verlinkte Liste von Arrays der L"ange $2^0$, $2^1$, $2^2$, $2^3$, $\ldots$
+    \item Zeiger auf letztes Array
+    \item Bei "Uberlauf: neues Array allokieren und an Liste anf"ugen
+    \end{itemize}
+  \item F"ur zweite Variante:
+    \begin{itemize}
+    \item Array von Arrays der L"ange $2^0$, $2^1$, $2^2$, $2^3$, $\ldots$
+    \item Das Element mit Index $i \in \{1,\ldots,n\}$ befindet sich in Array Nummer
+          $\floor{\log_2 i}$
+          (kann in $\bigO(1)$ berechnet werden)
+    \item Bei "Uberlauf muss Basisarray vergr"o"sert werden (es hat L"ange $\bigO(\log n)$)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Hashing}
+
+\subsection{Hashing}
+\begin{frame}
+  \frametitle{Hashing}
+  \begin{itemize}
+  \item Sei $m \in \mathbb{N}$ und $U$ ein beliebige Menge.
+        Eine Hashfunktion ist eine Funktion $h : U \rightarrow \{0,\ldots,m-1\}$
+  \item W"unschenswert w"are eine komplett zuf"allige Hashfunktion $h$
+  \item Eine Familie $\mathscr{H}$ von Hashfunktionen hei"st \textbf{universell} $\iff$
+        f"ur ein zuf"alliges $h \in \mathscr{H}$ gilt:
+        $\forall x, y \in U, x \neq y: \mathbb{P}(h(x) = h(y)) = \frac{1}{m}$
+  \item Hashtabelle: Array der Gr"o"se $m$, $h$ bildet $U$ auf Slots der
+        Tabelle ab. Kollisionen m"ussen behandelt werden
+    \begin{itemize}
+      \item \textbf{Offene Adressierung}: pro Slot ein Element. Bei Kollision wird zum
+            Beispiel n"achster Slot versucht (Linear Probing)
+      \item \textbf{Verlinkte Listen}: Jeder Slot verwaltet die Kollisionen in einer Liste
+    \end{itemize}
+  \item Bei geeigneter Hashfunktion und falls $m \in \Omega(n)$:
+        $\bigO(1)$ erwartete Laufzeit f"ur Operationen
+        \lstinline|find|/\lstinline|insert|/\lstinline|remove|
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hashing (2)}
+  \begin{itemize}
+  \item \textbf{Gegeben}: Zahl $x$ und Array $A = \langle A[0], A[1], \ldots, A[n-1] \rangle$
+        von Ganzzahlen, mit $A[i-1] \leq A[i] \ \ \forall i \in \{1,\ldots,n-1\}$ ($A$ aufsteigend sortiert)
+  \item Finde Elemente $A[i], A[j]$ mit $A[i] + A[j] = x$ oder gib $\bot$ aus, falls
+        diese nicht existieren \\
+    \ \ (a) in \emph{erwarteter} Laufzeit $\bigO(n)$ \\
+    \ \ (b) in \emph{erwarteter} Laufzeit $\bigO(n \cdot \log n)$ \\
+    \ \ (c) in \emph{Worst-Case}-Laufzeit $\bigO(n)$
+  \end{itemize}
+\end{frame}
 \end{document}
