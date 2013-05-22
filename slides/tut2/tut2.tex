@@ -1,7 +1,7 @@
 \input{../preamble}
 
 \title[Tutorium Algorithmen I]{Tutorium \tutNo, Algorithmen I}
-\subtitle{Woche 2 -- Beweise, }
+\subtitle{Woche 2 -- Beweise, Datenstrukturen, Hashing}
 
 \begin{document}
 
@@ -69,7 +69,7 @@
   \frametitle{Beweistipps}
   \begin{itemize}
   \item Behauptung und Beweis explizit trennen
-  \item ,,$\iff$'' eher selten verwenden, stattdessen ,,$\implies$''
+  \item ,,$\iff$'' eher selten verwenden, stattdessen ,,$\implies$'' und Termumformungen
   \item Schema \textbf{direkter Beweis}: \\
         Bekannt: $X \implies \ldots \implies$ Behauptung. $\square$
   \item Schema \textbf{indirekter Beweis}: \\
@@ -246,7 +246,7 @@
   \item Finde Elemente $A[i], A[j]$ mit $A[i] + A[j] = x$ oder gib $\bot$ aus, falls
         diese nicht existieren \\
     \ \ (a) in \emph{erwarteter} Laufzeit $\bigO(n)$ \\
-    \ \ (b) in \emph{erwarteter} Laufzeit $\bigO(n \cdot \log n)$ \\
+    \ \ (b) in \emph{Worst-Case}-Laufzeit $\bigO(n \cdot \log n)$ \\
     \ \ (c) in \emph{Worst-Case}-Laufzeit $\bigO(n)$
   \end{itemize}
 \end{frame}

@@ -1,0 +1,222 @@
+\input{../preamble}
+
+\title[Tutorium Algorithmen I]{Tutorium \tutNo, Algorithmen I}
+\subtitle{Woche 4 -- Hashing, Sortieren}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Hashing}
+
+\subsection{Hashing}
+\begin{frame}
+  \frametitle{"Ubersicht Hashing}
+  \begin{itemize}
+  \item Sei $m \in \mathbb{N}$ und $K$ ein beliebige Menge.
+        Eine \textbf{Hashfunktion} ist eine Funktion $h : K \rightarrow \{0,\ldots,m-1\}$
+  \item Eine \textbf{Hashkollision} bezeichnet ein Paar $x, y \in K$ mit $x \neq y$ und
+        $h(x) = h(y)$
+  \item W"unschenswert: komplett zuf"allige Hashfunktion \\
+          $\rightarrow$ unrealistisch, da ineffizient
+  \visible<2->{
+  \item Eine \emph{Familie} $\mathscr{H}$ von Hashfunktionen hei"st
+        \textbf{universell} $\iff$ f"ur ein zuf"alliges $h \in \mathscr{H}$ gilt:
+        $\forall x, y \in K, x \neq y: \mathbb{P}(h(x) = h(y)) = \frac{1}{m}$
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hashtabellen}
+  \begin{itemize}
+  \item Verwalten eine Menge $M$ mit \textbf{Schl"usseln} aus $K$
+  \item Wichtige Operationen
+    \begin{itemize}
+    \item \lstinline|find(key: K): M|
+    \item \lstinline|insert(key: K, value: M)|
+    \item evtl. \lstinline|remove(key: K)|
+    \end{itemize}
+  \item Oft zwei verschiedene Interfaces:
+    \begin{itemize}
+    \item Zur Verwaltung von Schl"usselmengen
+             (z.B. \lstinline|HashSet| in Java)
+    \item Zur Zuordnung Schl"ussel $\rightarrow$ Elemente
+             (z.B. \lstinline|HashMap| in Java)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hashtabellen (2)}
+  \begin{itemize}
+  \item Implementierung: Array der Gr"o"se $m$, $h$ bildet $K$ auf Slots der
+        Tabelle ab. Kollisionen m"ussen behandelt werden
+    \begin{itemize}
+      \visible<2->{
+      \item \textbf{Verlinkte Listen}: Jeder Slot verwaltet die Kollisionen in einer Liste
+      }
+      \visible<3->{
+      \item \textbf{Linear probing}: pro Slot ein Element. Bei Kollision werden Slots
+            genutzt
+      }
+    \end{itemize}
+  \visible<4->{
+  \item Bei geeigneter Hashfunktion und falls $m \in \Omega(n)$:
+        $\bigO(1)$ erwartete Laufzeit f"ur Operationen
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Aufgabe 1 (Hashing)}
+  \begin{itemize}
+  \item \textbf{Gegeben}: Zahl $x$ und Array $A = \langle A[0], A[1], \ldots, A[n-1] \rangle$
+        von Ganzzahlen
+  \item Finde Indices $i, j$ mit $A[i] + A[j] = x$ oder gib $\bot$ aus, falls
+        diese nicht existieren
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Aufgabe 1 (L"osung)}
+  \begin{lstlisting}
+  Function 2SUM(A, x)
+      numberToIndex = new HashMap(A.length)
+      for i := 0 to A.length - 1
+          numberToIndex.insert(A[i], i)
+      for i := 0 to A.length - 1
+          j := numberToIndex.find(x - A[i])
+          if j != %*$\bot$*)
+              return (i, j)
+      return %*$\bot$*)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Aufgabe 2 (Hashing)}
+  \begin{itemize}
+  \item Ben"otigt wird eine Queue, die folgende Operationen unterst"utzt:
+    \begin{itemize}
+    \item \lstinline|enqueue(x: M)| und \lstinline|dequeue(): M| in $\bigO(1)$
+    \item \lstinline|remove(x: M)| in \emph{erwartet} $\bigO(1)$
+    \end{itemize}
+  \item \emph{Hinweis}: Die Elemente $x$ aus $M$ k"onnen als Schl"ussel einer
+        Hashtabelle verwendet werden
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Aufgabe 2 (Hashing)}
+  \begin{lstlisting}
+  q : LinkedList
+  map : HashMap<M, ListItem>
+
+  Function enqueue(x: M)
+      q.pushFront(x)
+      map.insert(x, q.head)
+  Function remove(x: M)
+      item := map.find(x)
+      item.remove()
+      map.remove(x)
+  Function dequeue() : M
+      x := q.tail
+      remove(x)
+      return x
+  \end{lstlisting}
+\end{frame}
+
+\section{Sortieren}
+\subsection{"Ubersicht}
+\begin{frame}
+  \frametitle{Sortieren}
+  \begin{itemize}
+  \item \textbf{Problem}: Finde ,,sortierte'' Permutation einer Eingabefolge
+                         $A = \langle A[0], A[1], \ldots, A[n-1] \rangle$
+  \item Man darf: Elemente vergleichen ($A[i] \leq A[j], A[i] = A[j]$)
+  \item Begriffe:
+    \begin{itemize}
+    \item \textbf{in-place}: Nur $\bigO(1)$ Zusatzspeicher wird ben"otigt
+    \item \textbf{stabil}: Der Sortieralgorithmus erh"alt die Reihenfolge von
+                           ,,gleichen'' Elementen
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\subsection{Algorithmen}
+
+\begin{frame}
+  \frametitle{Insertion sort}
+  \begin{itemize}
+  \item Intuitiver Ansatz (vgl. Kartenspiele): Sortieren durch Einf"ugen
+        (\emph{Insertion sort})
+  \begin{itemize}
+  \item Beginne mit leerer Ergebnisliste $B = \langle\rangle$
+  \item F"uge der Reihe nach die Elemente $A[0],\ldots,A[n-1]$ derart in $B$ ein,
+        dass $B$ immer sortiert ist
+  \end{itemize}
+  \item Sehr effizient f"ur kleine ($n \leq 10$) und ,,fast'' sortierte Eingaben
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Merge sort}
+  \begin{itemize}
+  \item Divide and Conquer:
+    \begin{itemize}
+    \item Halbiere Liste
+    \item Sortiere H"alften rekursiv (trivialer Basisfall: $n \leq 1$)
+    \item F"uge sortierte Listen in $\bigO(n)$ zusammen (wie auf "UB2)
+    \end{itemize}
+  \item Mit Mastertheorem: $\Theta(n \cdot \log n)$
+  \item Stabil, einfach zu implementieren, aber $\Omega(n)$ Zusatzspeicher
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Quicksort}
+  \begin{itemize}
+  \item Divide and Conquer mit Zufall:
+    \begin{itemize}
+    \item Teile Eingabe grob in zwei Teile anhand von Pivot p \\
+          (linker Teil $< p$, rechter Teil $>p$)
+    \item Sortiere rekursiv
+    \end{itemize}
+  \item nicht stabil
+  \item Zusatzspeicher? \visible<2->{$\Omega(\log n)$}
+  \item Best case + Average case (zuf"allige Permutation):
+          $\bigO(n \cdot \log n)$
+  \item Worst case $\Omega(n^2)$, abh"angig von Pivotwahl
+    \begin{itemize}
+    \item Bei Wahl des ersten/letzten Elements als Pivot?
+    \item Bei Wahl des mittleren Elements als Pivot?
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Selection}
+\subsection{Selection}
+\begin{frame}
+  \frametitle{Das Auswahlproblem}
+  \begin{itemize}
+  \item Verwandt zu Sortierproblem: Gegeben $A = \langle A[0], A[1], \ldots, A[n-1] \rangle$,
+        finde das \emph{k-kleinste} Element in $A$
+  \item Mit Sortieren l"osbar, aber in Wirklichkeit ein einfacheres Problem!
+  \item \emph{Spezialfall}: Finde das $\lfloor n/2 \rfloor$-te Element in $A$, den
+        \textbf{Median}
+  \item Kreativaufgabe:
+    \begin{itemize}
+    \item Wir haben einen Algorithmus \lstinline|MEDIAN| zur Verf"ugung,
+          der uns den Median eines Arrays oder Teilarrays $A$ in
+          $\bigO(n)$ berechnet \\[1em]
+          (a) Bestimme das $\lfloor n/4 \rfloor$-kleinste
+          Element in $A$ in $\bigO(n)$ (25\%-Perzentil)\\[0.3em]
+          (b) Bestimme das $\lfloor n/3 \rfloor$-kleinste
+          Element in $A$ in $\bigO(n)$ (33\%-Perzentil)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\end{document}
